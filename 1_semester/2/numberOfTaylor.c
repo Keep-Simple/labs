@@ -16,7 +16,7 @@ double numberOfTaylor(double x, double precision)
     return _numberOfTaylor(x, precision, 0, 0, 1);
 }
 
-int main()
+int main(void)
 {
     double x, eps;
 
@@ -27,7 +27,7 @@ int main()
 
     double result = numberOfTaylor(x, eps);
 
-    printf("Result = %lf", result);
+    printf("Result = %lf\n", result);
 
     return 0;
 }
