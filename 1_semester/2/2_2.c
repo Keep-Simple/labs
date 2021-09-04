@@ -1,29 +1,6 @@
 #include <stdio.h>
 #include <math.h>
 
-// завдання 5 з додатку 1
-int *findTwoDigitNumbers(int *arrayLength)
-{
-	static int resultNums[90];
-	int i = 0;
-
-	for (int n = 10; n < 100; n++)
-	{
-		int firstDigit = n / 10;
-		int secondDigit = n % 10;
-
-		if ((firstDigit + secondDigit) * 2 == n)
-		{
-			resultNums[i++] = n;
-		}
-	}
-
-	*arrayLength = i;
-
-	return resultNums;
-}
-
-// завдання 4 з додатку 2
 typedef double (*doubleMathFunc)(double);
 
 void checkTaylorFunctionPrecision(
@@ -76,15 +53,6 @@ double taylorLn(double x)
 
 int main()
 {
-	printf("Task 5 from 1st section\n");
-	int SIZE = 0;
-	int *resultNums = findTwoDigitNumbers(&SIZE);
-
-	for (int i = 0; i < SIZE; i++)
-	{
-		printf("Number: %d with idx: %d\n", resultNums[i], i);
-	}
-
 	printf("\n\nTask 4 from 2nd section\n");
 
 	checkTaylorFunctionPrecision(-1, 1, lnFormula, taylorLn);
