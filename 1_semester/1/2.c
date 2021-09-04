@@ -21,6 +21,11 @@ void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount
                 (getNthDigit(nineDigitNum, 3) == 1) + (getNthDigit(nineDigitNum, 2) == 1) + (getNthDigit(nineDigitNum, 1) == 1);
 }
 
+int getNthDigit(int number, int digitIdx)
+{
+    return number / (int)pow(10, digitIdx - 1) % 10;
+}
+
 int main()
 {
     printf("Task 7 from 2nd section\n");

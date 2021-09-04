@@ -3,6 +3,9 @@
 
 # But not .c
 !*.c
+!*.h
+!*.sh
+!*.pdf
 # Or directories
 !*/
 !.gitignore

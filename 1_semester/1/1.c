@@ -1,21 +1,9 @@
 #include <stdio.h>
 #include <math.h>
 
-// завдання 5 з додатку 1
-double firstCalcTask(int x, int a, int p, int b)
+const int a = 3, p = 6, b = 2;
+
+double firstCalcTask(int x)
 {
     return (x / a) - log2(a + b * exp(p * x)) / (a * p);
-}
-
-int getNthDigit(int number, int digitIdx)
-{
-    return number / (int)pow(10, digitIdx - 1) % 10;
-}
-
-int main()
-{
-    printf("Task 5 from 1st section\n");
-    printf("Result: %lf\n\n", firstCalcTask(2, 3, 6, 2));
-
-    return 0;
 }
