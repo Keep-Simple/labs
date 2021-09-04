@@ -2,12 +2,12 @@
 #include <math.h>
 
 // завдання 5 з додатку 1
-double firstCalcTask(const int x, const int a, const int p, const int b)
+double firstCalcTask(int x, int a, int p, int b)
 {
     return (x / a) - log2(a + b * exp(p * x)) / (a * p);
 }
 
-int getNthDigit(const int number, const int digitIdx)
+int getNthDigit(int number, int digitIdx)
 {
     return number / (int)pow(10, digitIdx - 1) % 10;
 }

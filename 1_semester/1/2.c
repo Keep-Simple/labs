@@ -4,7 +4,7 @@
 // завдання 7 з додатку 2
 // find 9-digit positive integer's figures sum and "1" count
 // loops are forbidden
-void secondCalcTask(const int nineDigitNum, int *const figuresSum, int *const oneCount)
+void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount)
 {
     if (nineDigitNum >= pow(10, 9) || nineDigitNum < pow(10, 8))
     {
