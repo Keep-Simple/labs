@@ -37,7 +37,7 @@ int main()
 	printf("Task 5 from 1st section\n");
 	printf("Result: %lf\n\n", firstCalcTask(2, 3, 6, 2));
 
-	printf("Task 5 from 2nd section\n");
+	printf("Task 7 from 2nd section\n");
 
 	const int INPUT_9_DIGIT_NUMBER = 111333888;
 	int figuresSum = 0, oneCount = 0;
