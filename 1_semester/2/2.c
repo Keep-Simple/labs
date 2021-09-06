@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-typedef double (*doubleMathFunc)(double);
+typedef double doubleMathFunc(double);
 
 void checkTaylorFunctionPrecision(
 	int xLowExclusive, int xHighInclusive,
@@ -13,9 +13,9 @@ void checkTaylorFunctionPrecision(
 	printf("Enter: step, start, end (to define xAsix iteration):");
 	scanf("%lf %lf %lf", &step, &start, &end);
 
-	if (start <= xLowExclusive || xHighInclusive < end || start > end || step > fabs(start - end))
+	if (start <= xLowExclusive || xHighInclusive < end || start > end || step > fabs(start - end) || step == 0)
 	{
-		printf("Error: user input does't match bounds (%d, %d] or step is to big.\n",
+		printf("Error: user input does't match bounds (%d, %d] or step value is invalid.\n",
 			   xLowExclusive, xHighInclusive);
 
 		return;
@@ -43,7 +43,7 @@ double taylorLn(double x)
 
 	while (fabs(prevElement) >= eps)
 	{
-		prevElement = prevElement * x / idx;
+		prevElement = (prevElement * x) / idx;
 		result += prevElement * pow(-1, idx + 1);
 		idx++;
 	}
