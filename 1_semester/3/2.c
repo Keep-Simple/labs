@@ -8,11 +8,11 @@ int genRandomInt()
 
 int **generateMatrix(int x, int y)
 {
-    int **matrix = (int **)malloc(x * sizeof(int *));
+    int **matrix = (int **)malloc(y * sizeof(int *));
 
-    for (int i = 0; i < x; i++)
+    for (int i = 0; i < y; i++)
     {
-        matrix[i] = (int *)malloc(y * sizeof(int));
+        matrix[i] = (int *)malloc(x * sizeof(int));
     }
 
     for (int i = 0; i < y; i++)
