@@ -6,6 +6,7 @@
 !*.h
 !*.sh
 !*.pdf
+!*.docx
 # Or directories
 !*/
 !.gitignore
