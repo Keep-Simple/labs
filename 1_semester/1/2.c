@@ -1,12 +1,42 @@
 #include <stdio.h>
 #include <math.h>
 
+int getTenPow(int pow)
+{
+
+    switch (pow)
+    {
+    case 1:
+        return 1;
+    case 2:
+        return 10;
+    case 3:
+        return 100;
+    case 4:
+        return 1000;
+    case 5:
+        return 10000;
+    case 6:
+        return 100000;
+    case 7:
+        return 1000000;
+    case 8:
+        return 10000000;
+    case 9:
+        return 100000000;
+    case 10:
+        return 1000000000;
+    default:
+        return 0;
+    }
+}
+
 // завдання 7 з додатку 2
 // find 9-digit positive integer's figures sum and "1" count
 // loops are forbidden
 void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount)
 {
-    if (nineDigitNum >= pow(10, 9) || nineDigitNum < pow(10, 8))
+    if (nineDigitNum >= getTenPow(10) || nineDigitNum < getTenPow(9))
     {
         printf("Error: Input number should be positive and 9-digit\n\n");
         return;
@@ -23,14 +53,17 @@ void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount
 
 int getNthDigit(int number, int digitIdx)
 {
-    return number / (int)pow(10, digitIdx - 1) % 10;
+    return number / getTenPow(digitIdx) % 10;
 }
 
 int main()
 {
     printf("Task 7 from 2nd section\n");
 
-    const int INPUT_9_DIGIT_NUMBER = 111333888;
+    int INPUT_9_DIGIT_NUMBER;
+    printf("Enter 9-digit num: ");
+    scanf("%d", &INPUT_9_DIGIT_NUMBER);
+
     int figuresSum = 0, oneCount = 0;
 
     secondCalcTask(INPUT_9_DIGIT_NUMBER, &figuresSum, &oneCount);

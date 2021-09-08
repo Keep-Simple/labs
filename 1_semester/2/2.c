@@ -44,7 +44,14 @@ double taylorLn(double x)
 	while (fabs(prevElement) >= eps)
 	{
 		prevElement = (prevElement * x) / idx;
-		result += prevElement * pow(-1, idx + 1);
+		if (idx % 2 == 0)
+		{
+			result -= prevElement;
+		}
+		else
+		{
+			result += prevElement;
+		}
 		idx++;
 	}
 

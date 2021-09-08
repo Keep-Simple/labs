@@ -58,9 +58,9 @@ int main(void)
     scanf("%s", argsFile);
 
     FILE *file = fopen(argsFile, "rb");
-    int x;
+    double x;
     fread(&x, sizeof(x), 1, file);
-    logWithTimeStamp("Parameters file \"%s\" opened. x = %d.", argsFile, x);
+    logWithTimeStamp("Parameters file \"%s\" opened. x = %lf.", argsFile, x);
     fclose(file);
 
     char outputFile[62];

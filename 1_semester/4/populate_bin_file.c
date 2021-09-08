@@ -2,9 +2,9 @@
 
 int main()
 {
-	int x;
+	double x;
 	printf("Enter x: ");
-	scanf("%d", &x);
+	scanf("%lf", &x);
 
 	FILE *file = fopen("input.bin", "wb");
 	fwrite(&x, sizeof(x), 1, file);

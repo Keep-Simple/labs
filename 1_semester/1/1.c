@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 
-const int a = 3, p = 6, b = 2;
+const double a = 3, p = 6, b = 2;
 
-double firstCalcTask(int x)
+double firstCalcTask(double x)
 {
-    return (x / a) - log2(a + b * exp(p * x)) / (a * p);
+    // add validation
+    return (x / a) - log(a + b * exp(p * x)) / (a * p);
 }
