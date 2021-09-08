@@ -10,7 +10,7 @@ void checkTaylorFunctionPrecision(
 {
 	double step, start, end;
 
-	printf("Enter: step, start, end (to define xAsix iteration):");
+	printf("Enter: step, start, end (to define xAsix iteration): ");
 	scanf("%lf %lf %lf", &step, &start, &end);
 
 	if (start <= xLowExclusive || xHighInclusive < end || start > end || step > fabs(start - end) || step == 0)
@@ -41,18 +41,14 @@ double taylorLn(double x)
 	double prevElement = x, result = x, eps = 1E-200;
 	long idx = 2;
 
-	while (fabs(prevElement) >= eps)
+	while (fabs(prevElement) > eps)
 	{
-		prevElement = (prevElement * x) / idx;
-		if (idx % 2 == 0)
-		{
+		prevElement *= x / idx * (idx - 1);
+
+		if (idx++ % 2 == 0)
 			result -= prevElement;
-		}
 		else
-		{
 			result += prevElement;
-		}
-		idx++;
 	}
 
 	return result;

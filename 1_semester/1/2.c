@@ -1,34 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 
-int getTenPow(int pow)
+int intPow(int x, int y)
 {
-
-    switch (pow)
-    {
-    case 1:
-        return 1;
-    case 2:
-        return 10;
-    case 3:
-        return 100;
-    case 4:
-        return 1000;
-    case 5:
-        return 10000;
-    case 6:
-        return 100000;
-    case 7:
-        return 1000000;
-    case 8:
-        return 10000000;
-    case 9:
-        return 100000000;
-    case 10:
-        return 1000000000;
-    default:
-        return 0;
-    }
+    // adding 0.5 so all compilers would round number properly
+    return (int)(pow(x, y) + 0.5);
 }
 
 // завдання 7 з додатку 2
@@ -36,7 +12,7 @@ int getTenPow(int pow)
 // loops are forbidden
 void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount)
 {
-    if (nineDigitNum >= getTenPow(10) || nineDigitNum < getTenPow(9))
+    if (nineDigitNum >= intPow(10, 9) || nineDigitNum < intPow(10, 8))
     {
         printf("Error: Input number should be positive and 9-digit\n\n");
         return;
@@ -53,7 +29,7 @@ void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount
 
 int getNthDigit(int number, int digitIdx)
 {
-    return number / getTenPow(digitIdx) % 10;
+    return number / intPow(10, digitIdx - 1) % 10;
 }
 
 int main()
