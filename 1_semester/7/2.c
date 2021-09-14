@@ -8,13 +8,13 @@ typedef struct tabulatedRes
     double value;
 } tabulatedRes;
 typedef double doubleMathFunc(double);
-typedef void getResultsFunc(double, double, double, doubleMathFunc, tabulatedRes *);
+typedef void getResultsFunc(double, double, double, doubleMathFunc *, tabulatedRes *);
 
 double mathFunc(double x)
 {
     return pow(cos(4 * x), 2);
 }
-void getResultsWithFor(double start, double end, double step, doubleMathFunc func, tabulatedRes *results)
+void getResultsWithFor(double start, double end, double step, doubleMathFunc *func, tabulatedRes *results)
 {
     int length = (end - start) / step;
 
@@ -24,7 +24,7 @@ void getResultsWithFor(double start, double end, double step, doubleMathFunc fun
         results[i].value = func(start);
     }
 }
-void getResultsWithWhile(double start, double end, double step, doubleMathFunc func, tabulatedRes *results)
+void getResultsWithWhile(double start, double end, double step, doubleMathFunc *func, tabulatedRes *results)
 {
     int i = 0;
     while (start < end)
@@ -35,7 +35,7 @@ void getResultsWithWhile(double start, double end, double step, doubleMathFunc f
         start += step;
     }
 }
-void getResultsWithDoWhile(double start, double end, double step, doubleMathFunc func, tabulatedRes *results)
+void getResultsWithDoWhile(double start, double end, double step, doubleMathFunc *func, tabulatedRes *results)
 {
     int i = 0;
     do
@@ -48,23 +48,23 @@ void getResultsWithDoWhile(double start, double end, double step, doubleMathFunc
     } while (start < end);
 }
 
-void printTabulateResults(double start, double end, double step, doubleMathFunc func, int option)
+void printTabulateResults(double start, double end, double step, doubleMathFunc *func, int option)
 {
     int length = (end - start) / step;
     tabulatedRes *results = (tabulatedRes *)malloc(length * sizeof(tabulatedRes));
 
-    getResultsFunc *getResult = getResultsWithFor;
+    getResultsFunc *getResult;
 
     switch (option)
     {
     case 1:
-        getResult = getResultsWithFor;
+        getResult = &getResultsWithFor;
         break;
     case 2:
-        getResult = getResultsWithWhile;
+        getResult = &getResultsWithWhile;
         break;
     case 3:
-        getResult = getResultsWithDoWhile;
+        getResult = &getResultsWithDoWhile;
         break;
     default:
         break;
@@ -94,7 +94,7 @@ int main(void)
     printf("Enter option number [1/2/3]: ");
     scanf("%d", &option);
 
-    printTabulateResults(start, end, step, mathFunc, option);
+    printTabulateResults(start, end, step, &mathFunc, option);
 
     return 0;
 }
