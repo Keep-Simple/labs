@@ -34,16 +34,14 @@ void _logWithTimeStamp(char str[])
 
     FILE *file = fopen("log.txt", "a");
 
-    fprintf(file, "[%02d.%02d.%04d %02d:%02d:%02d] ",
+    fprintf(file, "[%02d.%02d.%04d %02d:%02d:%02d] %s\n",
             timestamp->tm_mday,
             timestamp->tm_mon + 1,
             timestamp->tm_year + 1900,
             timestamp->tm_hour,
             timestamp->tm_min,
-            timestamp->tm_sec);
-
-    fprintf(file, str);
-    fprintf(file, "\n");
+            timestamp->tm_sec,
+            str);
 
     fclose(file);
 }
