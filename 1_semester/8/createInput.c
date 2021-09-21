@@ -18,7 +18,7 @@ int main()
 
     FILE *file = fopen("students.txt", "a");
 
-    fscanf(file, "%s,%s,%s,%s", surname, name, birthDate, grades);
+    fprintf(file, "%s,%s,%s,%s", surname, name, birthDate, grades);
 
     fclose(file);
 

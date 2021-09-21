@@ -117,7 +117,7 @@ void printStudents(struct Students *students)
 
 int main(void)
 {
-    printf("Task 3, Section 1:\n\n");
+    printf("Task 3:\n\n");
 
     struct Students students;
     getStudentsFromFile(&students);
