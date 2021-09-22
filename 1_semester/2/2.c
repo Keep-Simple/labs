@@ -54,7 +54,7 @@ double taylorLn(double x)
 	return result;
 }
 
-int main()
+int main(void)
 {
 	printf("\n\nTask 4 from 2nd section\n");
 
@@ -62,3 +62,4 @@ int main()
 
 	return 0;
 }
+

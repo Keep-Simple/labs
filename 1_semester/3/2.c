@@ -72,7 +72,7 @@ void printMatrix(int **matrix, int x, int y)
     }
 }
 
-int main()
+int main(void)
 {
     printf("Task 5 from 2nd section\n\n");
 

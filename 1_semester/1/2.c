@@ -7,7 +7,6 @@ int intPow(int x, int y)
     return (int)(pow(x, y) + 0.5);
 }
 
-// завдання 7 з додатку 2
 // find 9-digit positive integer's figures sum and "1" count
 // loops are forbidden
 void secondCalcTask(int nineDigitNum, int *const figuresSum, int *const oneCount)
@@ -32,7 +31,7 @@ int getNthDigit(int number, int digitIdx)
     return number / intPow(10, digitIdx - 1) % 10;
 }
 
-int main()
+int main(void)
 {
     printf("Task 7 from 2nd section\n");
 

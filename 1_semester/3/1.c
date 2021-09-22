@@ -40,7 +40,7 @@ void printArray(int arr[], int size)
     printf("}\n");
 }
 
-int main()
+int main(void)
 {
     printf("Task 5 from 1st section\n");
     int array[ARRAY_SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
