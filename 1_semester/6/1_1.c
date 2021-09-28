@@ -4,53 +4,38 @@
 
 typedef struct Matrix
 {
-    int **value;
+    double **values;
     int x;
     int y;
 } matrix;
 
-void initMatrix(matrix *matrix)
+void initMatrix(matrix *matrix, int fillFromStd)
 {
-    matrix->value = (int **)malloc(matrix->y * sizeof(int *));
+    matrix->values = (double **)malloc(matrix->y * sizeof(double *));
 
     for (int i = 0; i < matrix->y; i++)
     {
-        matrix->value[i] = (int *)malloc(matrix->x * sizeof(int));
-    }
-
-    for (int i = 0; i < matrix->y; i++)
-    {
-        for (int j = 0; j < matrix->x; j++)
+        matrix->values[i] = (double *)calloc(matrix->x, sizeof(double));
+        if (fillFromStd)
         {
-            matrix->value[i][j] = 0;
+            printf("Enter %d elements for %d row:\n", matrix->x, i);
+            for (int j = 0; j < matrix->x; j++)
+            {
+                printf("\tidx %d: ", j);
+                scanf("%lf", &matrix->values[i][j]);
+            }
+            printf("\n");
         }
     }
-}
-
-void populateMatrix(matrix *matrix, int *values)
-{
-    for (int i = 0; i < matrix->y; i++)
-    {
-        for (int j = 0; j < matrix->x; j++)
-        {
-            matrix->value[i][j] = values[i * matrix->x + j];
-        }
-    }
-}
-
-void initAndPopulateMatrix(matrix *matrix, int *values)
-{
-    initMatrix(matrix);
-    populateMatrix(matrix, values);
 }
 
 void freeMatrix(matrix *matrix)
 {
     for (int i = 0; i < matrix->x; i++)
     {
-        free(matrix->value[i]);
+        free(matrix->values[i]);
     }
-    free(matrix->value);
+    free(matrix->values);
 }
 
 void addMatrix(matrix *a, matrix *b, matrix *result)
@@ -63,13 +48,13 @@ void addMatrix(matrix *a, matrix *b, matrix *result)
 
     result->x = a->x;
     result->y = a->y;
-    initMatrix(result);
+    initMatrix(result, 0);
 
     for (int i = 0; i < a->y; i++)
     {
         for (int j = 0; j < a->x; j++)
         {
-            result->value[i][j] = a->value[i][j] + b->value[i][j];
+            result->values[i][j] = a->values[i][j] + b->values[i][j];
         }
     }
 }
@@ -81,43 +66,49 @@ void printMatrix(matrix *matrix, char *name)
     {
         for (int j = 0; j < matrix->x; j++)
         {
-            printf("\t%d", matrix->value[i][j]);
+            printf("\t%.1lf", matrix->values[i][j]);
         }
         printf("\n");
     }
     printf("\n");
 }
 
+void transposeSquareMatrix(matrix *initial, matrix *out)
+{
+    if (initial->x != initial->y)
+        return;
+
+    out->x = initial->x;
+    out->y = initial->y;
+    initMatrix(out, 0);
+
+    for (int i = 0; i < initial->y; i++)
+        for (int j = 0; j < initial->x; j++)
+            out->values[j][i] = initial->values[i][j];
+}
+
 int main()
 {
     printf("Task 5, Section 1\n");
+    printf("Enter matrix heigth and width: ");
+
     matrix a, b, result;
+    int size = 0;
+    scanf("%d", &size);
+    a.x = a.y = size;
 
-    a.x = 3;
-    a.y = 3;
-    b.x = 3;
-    b.y = 3;
-
-    int matrix1[][3] = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}};
-
-    int matrix2[][3] = {
-        {1, 4, 7},
-        {2, 5, 8},
-        {3, 6, 9}};
-
-    initAndPopulateMatrix(&a, matrix1);
+    initMatrix(&a, 1);
     printMatrix(&a, "Initial");
 
-    initAndPopulateMatrix(&b, matrix2);
+    transposeSquareMatrix(&a, &b);
     printMatrix(&b, "Transposed");
 
     addMatrix(&a, &b, &result);
     printMatrix(&result, "Sum");
 
     freeMatrix(&result);
+    freeMatrix(&a);
+    freeMatrix(&b);
 
     return 0;
 }
