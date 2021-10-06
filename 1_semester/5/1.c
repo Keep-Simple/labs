@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "1.h"
 #define _USE_MATH_DEFINES
 
 const double a = -M_PI / 2, b = 0;
@@ -37,7 +38,7 @@ void displayFuncResult(double x, double y)
     printf("|\tx = %.3lf\t|\ty = %.3lf\t|\n-------------------------------------------------\n", x, y);
 }
 
-int main()
+int main(void)
 {
     printf("Task 3\n");
 
@@ -71,3 +72,4 @@ int main()
 
     return 0;
 }
+

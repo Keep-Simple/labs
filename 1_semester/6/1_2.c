@@ -49,7 +49,7 @@ void parseNumber(int number)
     }
 }
 
-int main()
+int main(void)
 {
     printf("Task 5, Section 2\n");
 

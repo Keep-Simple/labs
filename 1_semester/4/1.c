@@ -16,7 +16,7 @@ int vowelsUsageComparator(const void *a, const void *b)
     return ib->usageCount - ia->usageCount;
 }
 
-int main()
+int main(void)
 {
     printf("Task 4\n");
 
@@ -33,8 +33,9 @@ int main()
     };
 
     const int vowelsLenght = sizeof(vowels) / sizeof(vowels[0]);
+    const int sentenceLength = strlen(sentence);
 
-    for (int i = 0; i < strlen(sentence); i++)
+    for (int i = 0; i < sentenceLength; i++)
     {
         for (int j = 0; j < vowelsLenght; j++)
         {
@@ -52,6 +53,12 @@ int main()
     for (int j = 0; j < vowelsLenght; j++)
     {
         totalUsageCount += vowels[j].usageCount;
+    }
+
+    if (!totalUsageCount)
+    {
+        printf("No vowels found! Exitting...\n");
+        return -1;
     }
 
     for (int j = 0; j < vowelsLenght; j++)

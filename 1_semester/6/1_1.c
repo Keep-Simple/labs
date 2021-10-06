@@ -87,7 +87,7 @@ void transposeSquareMatrix(matrix *initial, matrix *out)
             out->values[j][i] = initial->values[i][j];
 }
 
-int main()
+int main(void)
 {
     printf("Task 5, Section 1\n");
     printf("Enter matrix heigth and width: ");

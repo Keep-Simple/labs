@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int main()
+int main(void)
 {
     char name[30], surname[50], birthDate[14], grades[50];
 
