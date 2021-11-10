@@ -8,12 +8,12 @@ int main(void)
 {
     printf("Task 5, Section 3\n");
 
-    double base, firstElement;
+    double base, firstElement, idx;
 
-    printf("Enter base and first element: ");
-    scanf("%lf %lf", &base, &firstElement);
+    printf("Enter base, first element, idx of desired element (space-separated): ");
+    scanf("%lf %lf %lf", &base, &firstElement, &idx);
 
-    printf("Result: %.3lf\n", GET_N_GEOM_PROGRESSION_ELEMENT(firstElement, base, 3));
+    printf("Result: %.3lf\n", GET_N_GEOM_PROGRESSION_ELEMENT(firstElement, base, idx));
 
     return 0;
 }

@@ -5,16 +5,16 @@ void parseNumber(int);
 
 void calcArgsDigits(int firstNumber, ...)
 {
-    int currentNum;
+    int currentNum = firstNumber;
     va_list args;
     va_start(args, &firstNumber);
 
-    parseNumber(firstNumber);
     // read args while current element not -1
-    while ((currentNum = va_arg(args, int)) != -1)
+    do
     {
         parseNumber(currentNum);
-    }
+    } while ((currentNum = va_arg(args, int)) != -1);
+
     va_end(args);
 }
 
@@ -45,7 +45,10 @@ void parseNumber(int number)
     printf("Parsing number \"%d\":\n", number);
     for (int i = 0; i < 10; i++)
     {
-        printf("\t\"%d\" used %d times\n", map[i].digit, map[i].count);
+        if (map[i].count)
+        {
+            printf("\t\"%d\" used %d times\n", map[i].digit, map[i].count);
+        }
     }
 }
 
@@ -53,7 +56,7 @@ int main(void)
 {
     printf("Task 5, Section 2\n");
 
-    calcArgsDigits(1000, 22394, 3393939, 4999, 51111, 6120390756, -1);
+    calcArgsDigits(1000, 22394, 3393939, 4999, 51111, 90756, -1);
 
     return 0;
 }
