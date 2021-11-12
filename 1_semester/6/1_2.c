@@ -7,7 +7,7 @@ void calcArgsDigits(int firstNumber, ...)
 {
     int currentNum = firstNumber;
     va_list args;
-    va_start(args, &firstNumber);
+    va_start(args, firstNumber);
 
     // read args while current element not -1
     do

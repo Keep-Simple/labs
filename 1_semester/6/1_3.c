@@ -2,7 +2,7 @@
 #include <math.h>
 
 // Задати макрос обчислення n - ого члена геометричної прогресії за введеними користувачем першим членом і знаменником
-#define GET_N_GEOM_PROGRESSION_ELEMENT(firstEl, base, n) firstEl *pow(base, n - 1)
+#define GET_N_GEOM_PROGRESSION_ELEMENT(firstEl, base, n) ((firstEl)*pow((base), (n - 1)))
 
 int main(void)
 {
