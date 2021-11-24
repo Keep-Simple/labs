@@ -26,22 +26,27 @@ int main(void)
             break;
 
         arrayEntry = strtok(line, spaceDelim);
-        arrayLength = atoi(arrayEntry) + 1;
+        arrayLength = strtol(arrayEntry, 0, 10) + 1;
 
         int *arr = (int *)malloc(sizeof(int) * arrayLength);
+        int retry = 0;
 
         while (arrayEntry)
         {
             if (i == arrayLength)
             {
-                fprintf(stderr, "\nError: number of elements must match first element: %d. This array won't be persisted.\n\n", arrayLength);
+                fprintf(stderr, "\nError: number of elements must be: %d. This array won't be persisted.\n\n", arrayLength - 1);
                 i = 0;
                 free(arr);
-                continue;
+                retry = 1;
+                break;
             }
-            arr[i++] = atoi(arrayEntry);
+            arr[i++] = strtol(arrayEntry, 0, 10);
             arrayEntry = strtok(NULL, spaceDelim);
         }
+
+        if (retry)
+            continue;
 
         arrays[arraysCount++] = arr;
         i = 0;
@@ -64,6 +69,8 @@ int main(void)
                 printf("%d, ", arrays[i][j]);
         }
         printf(" }\n");
+
+        free(arrays[i]);
     }
 
     return 0;
