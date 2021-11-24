@@ -3,60 +3,63 @@
 #include <string.h>
 
 void printNumber(int *a, int n);
-void generateNums(int *a, int n);
-void swap(int *a, int i, int j);
+void swap(int *a, int *b);
+void permutation(int *a, int start, int end);
+int *numberToArray(int number, int *length);
 
 int main(void)
 {
   printf("Task 6, Section 3:\n");
 
-  char strNumber[300];
-  int number[300];
+  int number, digitsCount;
   printf("Enter number: ");
-  scanf("%s", strNumber);
+  scanf("%d", &number);
 
-  int length = strlen(strNumber);
-  for (int i = 0; i < length; i++)
-  {
-    number[i] = strNumber[i] - '0';
-  }
-  printNumber(number, length);
-  generateNums(number, length);
+  int *digitsArr = numberToArray(number, &digitsCount);
+  permutation(digitsArr, 0, digitsCount - 1);
 
   return 0;
 }
 
-void swap(int *a, int i, int j)
+int *numberToArray(int number, int *length)
 {
-  int s = a[i];
-  a[i] = a[j];
-  a[j] = s;
+  *length = (int)(log10((float)number)) + 1;
+  int *arr = (int *)malloc(*length * sizeof(int)), *curr = arr;
+
+  do
+  {
+    *curr++ = number % 10;
+    number /= 10;
+  } while (number != 0);
+
+  return arr;
 }
 
-void generateNums(int *a, int n)
+void swap(int *a, int *b)
 {
-  int j = n - 2;
-  while (j != -1 && a[j] >= a[j + 1])
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+void permutation(int *a, int start, int end)
+{
+  if (start == end)
   {
-    j--;
+    printNumber(a, end + 1);
+    return;
   }
-  if (j == -1)
+
+  for (int i = start; i <= end; i++)
   {
-    return; // больше перестановок нет
+    // swapping numbers
+    swap((a + i), (a + start));
+    // fixing one first digit
+    // and calling permutation on
+    // the rest of the digits
+    permutation(a, start + 1, end);
+    swap((a + i), (a + start));
   }
-  int k = n - 1;
-  while (a[j] >= a[k])
-  {
-    k--;
-  }
-  swap(a, j, k);
-  int l = j + 1, r = n - 1; // сортируем оставшуюся часть последовательности
-  while (l < r)
-  {
-    swap(a, l++, r--);
-  }
-  printNumber(a, n);
-  return generateNums(a, n);
 }
 
 void printNumber(int *a, int n)

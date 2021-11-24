@@ -26,23 +26,21 @@ void getResultsWithFor(double start, double end, double step, doubleMathFunc *fu
 }
 void getResultsWithWhile(double start, double end, double step, doubleMathFunc *func, tabulatedRes *results)
 {
-    int i = 0;
     while (start < end)
     {
-        results[i].x = start;
-        results[i].value = func(start);
-        i++;
+        *results++;
+        results->x = start;
+        results->value = func(start);
         start += step;
     }
 }
 void getResultsWithDoWhile(double start, double end, double step, doubleMathFunc *func, tabulatedRes *results)
 {
-    int i = 0;
     do
     {
-        results[i].x = start;
-        results[i].value = func(start);
-        i++;
+        *results++;
+        results->x = start;
+        results->value = func(start);
         start += step;
 
     } while (start < end);
