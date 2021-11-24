@@ -4,30 +4,32 @@
 
 #define MAX_STUDENTS_COUNT 100
 #define MAX_LINE_LENGTH 512
-struct Students {
-  struct Student {
+struct Students
+{
+  struct Student
+  {
     char name[30], surname[50], birthDate[14];
-    struct Grades {
+    struct Grades
+    {
       int entries[20];
       int length;
       double avarage;
-    };
+    } grades;
+  } entries[MAX_STUDENTS_COUNT];
 
-    struct Grades grades;
-  };
-
-  struct Student entries[100];
   int length;
   double avarageGrade;
 };
 
-struct Date {
+struct Date
+{
   int day;
   int month;
   int year;
 };
 
-void getStudentsFromFile(struct Students *students) {
+void getStudentsFromFile(struct Students *students)
+{
   FILE *file = fopen("students.txt", "r");
 
   char buffer[MAX_LINE_LENGTH];
@@ -37,7 +39,8 @@ void getStudentsFromFile(struct Students *students) {
   int studentsCount = 0, gradesCount = 0, gradesSum = 0;
   double totalGradesSum = 0;
 
-  while (fgets(buffer, MAX_LINE_LENGTH, file)) {
+  while (fgets(buffer, MAX_LINE_LENGTH, file))
+  {
     char *entry = strtok(buffer, comaDelim);
     strcpy(students->entries[studentsCount].surname, entry);
     entry = strtok(NULL, comaDelim);
@@ -49,10 +52,11 @@ void getStudentsFromFile(struct Students *students) {
 
     // reuse entry variable for parsing space separated grades
     entry = strtok(entry, spaceDelim);
-    while (entry != NULL) {
+    while (entry != NULL)
+    {
       gradesSum +=
           (students->entries[studentsCount].grades.entries[gradesCount++] =
-               atoi(entry));
+               strtol(entry, 0, 10));
       entry = strtok(NULL, spaceDelim);
     }
     students->entries[studentsCount].grades.length = gradesCount;
@@ -68,17 +72,19 @@ void getStudentsFromFile(struct Students *students) {
   fclose(file);
 }
 
-void getParsedDate(char *str, struct Date *date) {
+void getParsedDate(char *str, struct Date *date)
+{
   const char dotDelim[] = ".";
   char *datePart = strtok(str, dotDelim);
-  date->day = atoi(datePart);
+  date->day = strtol(datePart, 0, 10);
   datePart = strtok(NULL, dotDelim);
-  date->month = atoi(datePart);
+  date->month = strtol(datePart, 0, 10);
   datePart = strtok(NULL, dotDelim);
-  date->year = atoi(datePart);
+  date->year = strtol(datePart, 0, 10);
 }
 
-int studentsAgeComparator(const void *a, const void *b) {
+int studentsAgeComparator(const void *a, const void *b)
+{
   struct Student *ia = (struct Student *)a;
   struct Student *ib = (struct Student *)b;
   struct Date dateA, dateB;
@@ -98,26 +104,30 @@ int studentsAgeComparator(const void *a, const void *b) {
   return 0;
 }
 
-void printStudents(struct Students *students) {
-  for (int i = 0; i < students->length; i++) {
+void printStudents(struct Students *students)
+{
+  for (int i = 0; i < students->length; i++)
+  {
     printf("Student %d:\n\tSurname: %s\n\tName: %s\n\tAvarage Grade: %.3lf\n\n",
            i + 1, students->entries[i].surname, students->entries[i].name,
            students->entries[i].grades.avarage);
   }
 }
 
-int main(void) {
+int main(void)
+{
   printf("Task 3:\n\n");
 
   struct Students students;
   getStudentsFromFile(&students);
 
   // create students array, where each student has less than avarage grade
-  struct Students filteredStudents;
-  filteredStudents.length = 0;
+  struct Students filteredStudents = {.length = 0};
 
-  for (int i = 0; i < students.length; i++) {
-    if (students.entries[i].grades.avarage < students.avarageGrade) {
+  for (int i = 0; i < students.length; i++)
+  {
+    if (students.entries[i].grades.avarage < students.avarageGrade)
+    {
       // shallow copy
       filteredStudents.entries[filteredStudents.length++] = students.entries[i];
     }
