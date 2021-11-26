@@ -4,6 +4,8 @@
 
 #define MAX_STUDENTS_COUNT 100
 #define MAX_LINE_LENGTH 512
+#define BIRTH_DATE_LENGTH 14
+
 struct Students
 {
   struct Student
@@ -41,18 +43,16 @@ void getStudentsFromFile(struct Students *students)
 
   while (fgets(buffer, MAX_LINE_LENGTH, file))
   {
-    char *entry = strtok(buffer, comaDelim);
-    strcpy(students->entries[studentsCount].surname, entry);
-    entry = strtok(NULL, comaDelim);
-    strcpy(students->entries[studentsCount].name, entry);
-    entry = strtok(NULL, comaDelim);
-    strcpy(students->entries[studentsCount].birthDate, entry);
-    entry = strtok(NULL, comaDelim);
-    entry[strcspn(entry, "\n")] = 0;
+    strcpy(students->entries[studentsCount].surname, strtok(buffer, comaDelim));
+    strcpy(students->entries[studentsCount].name, strtok(NULL, comaDelim));
+    strcpy(students->entries[studentsCount].birthDate, strtok(NULL, comaDelim));
 
-    // reuse entry variable for parsing space separated grades
+    // read space-separated grades
+    char *entry = strtok(NULL, comaDelim);
+    entry[strcspn(entry, "\n")] = 0;
     entry = strtok(entry, spaceDelim);
-    while (entry != NULL)
+
+    while (entry)
     {
       gradesSum +=
           (students->entries[studentsCount].grades.entries[gradesCount++] =
@@ -75,12 +75,12 @@ void getStudentsFromFile(struct Students *students)
 void getParsedDate(char *str, struct Date *date)
 {
   const char dotDelim[] = ".";
-  char *datePart = strtok(str, dotDelim);
-  date->day = strtol(datePart, 0, 10);
-  datePart = strtok(NULL, dotDelim);
-  date->month = strtol(datePart, 0, 10);
-  datePart = strtok(NULL, dotDelim);
-  date->year = strtol(datePart, 0, 10);
+  const char buffer[BIRTH_DATE_LENGTH];
+  strcpy(buffer, str);
+
+  date->day = strtol(strtok(buffer, dotDelim), 0, 10);
+  date->month = strtol(strtok(NULL, dotDelim), 0, 10);
+  date->year = strtol(strtok(NULL, dotDelim), 0, 10);
 }
 
 int studentsAgeComparator(const void *a, const void *b)
