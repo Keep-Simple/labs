@@ -68,7 +68,7 @@ void printTabulateResults(double start, double end, double step, doubleMathFunc 
         break;
     }
 
-    getResultsWithFor(start, end, step, func, results);
+    getResult(start, end, step, func, results);
 
     printf("Printing tabulated results:\n");
     for (int i = 0; i < length; i++)
