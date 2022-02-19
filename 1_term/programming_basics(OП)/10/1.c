@@ -42,7 +42,7 @@ void deleteStudent(student **head, student *studentToDelete)
     }
 
     student *current = *head;
-    while (current)
+    while (current->next)
     {
         if (current->next == studentToDelete)
         {
@@ -68,6 +68,7 @@ void deleteAllStudentsMatching(student **head, int (*matcher)(student *current))
     }
 }
 
+// ascending
 void insertStudentSorted(student **head, student *newStudent, int (*comparator)(student *a, student *b))
 {
     // in case head is null or newStudent is "smaller" than head
