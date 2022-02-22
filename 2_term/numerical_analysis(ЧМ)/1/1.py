@@ -45,9 +45,11 @@ def validate_range(f, a, b, eps):
         raise ValueError(f"Eps must be > 0, but was {eps}")
 
 
-def run(start, end):
+def run():
     try:
         eps = float(input("Tolerable Error [0.0001]: ") or 0.0001)
+        start = float(input("Interval start [2+√6]: ") or 2 + math.sqrt(6))
+        end = float(input("Interval end [10]:") or 10)
 
         bisection_res = bisection(equality, start, end, eps)
         hord_res = secant(equality, start, end, eps)
@@ -55,11 +57,11 @@ def run(start, end):
         print(
             f"""
             Bisection method:
-                x = {bisection_res["result"]}
+                x = {bisection_res["result"]:.6f}
                 iterations = {bisection_res["iterations"]}
 
             Secant method:
-                x = {hord_res["result"]}
+                x = {hord_res["result"]:.6f}
                 iterations = {hord_res["iterations"]}
         """
         )
@@ -70,4 +72,5 @@ def run(start, end):
         )
 
 
-run(start=2 + math.sqrt(6), end=10)
+if __name__ == "__main__":
+    run()
