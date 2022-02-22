@@ -49,12 +49,8 @@ Item {
 
     function clear() {
         displayedOperand = "";
-        if (enteringDigits) {
-            const i = listView.model.count - 1;
-            if (i >= 0)
-                listView.model.remove(i);
-            enteringDigits = false;
-        }
+        listView.model.clear();
+        enteringDigits = false;
     }
 
     // Returns a string representation of a number that fits in
