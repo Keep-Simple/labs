@@ -41,7 +41,7 @@ def validate_range(f, a, b, eps):
     if f(a) * f(b) > 0:
         raise ValueError(f"Given values [{a}, {b}] do not bracket the root")
 
-    if eps == 0:
+    if eps <= 0:
         raise ValueError(f"Eps must be > 0, but was {eps}")
 
 

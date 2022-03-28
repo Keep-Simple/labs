@@ -1,21 +1,18 @@
 from scipy import misc, special
-import l1.l1 as lab1
+from l1.l1 import equality as f, validate_range
 import math
 
 
-def IterationsMethod(calc_x, x=1, tolerance=1e-2):
+def IterationsMethod(calc_x, x=1, eps=1e-2):
     step = 1
     condition = True
     while condition:
         x1 = calc_x(x)
         step += 1
-        condition = math.fabs(x - x1) > tolerance
+        condition = math.fabs(x - x1) > eps
         x = x1
 
     return {"result": x, "iterations": step}
-
-
-f = lab1.equality
 
 
 def f1(x):
@@ -24,14 +21,6 @@ def f1(x):
 
 def f2(x):
     return x - f(x) / misc.derivative(f, x)
-
-
-def validate_range(f, a, b, eps):
-    if f(a) * f(b) > 0:
-        raise ValueError(f"Given values [{a}, {b}] do not bracket the root")
-
-    if eps == 0:
-        raise ValueError(f"Eps must be > 0, but was {eps}")
 
 
 def run():
