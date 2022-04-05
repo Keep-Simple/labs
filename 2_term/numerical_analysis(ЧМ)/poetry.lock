@@ -20,7 +20,7 @@ numpy = ">=1.17.3,<1.25.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.10"
-content-hash = "a52464993adcae779159120206b06915a2fb2d83816037633022e471edcee673"
+content-hash = "dc390c53285033e0278c99701f3cf0d637f60fc9de733390e045642df133bd52"
 
 [metadata.files]
 numpy = [

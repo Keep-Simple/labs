@@ -1,6 +1,0 @@
-<RCC>
-    <qresource>
-        <file>systemdialogs.qml</file>
-        <file>FileDialogs.qml</file>
-    </qresource>
-</RCC>
