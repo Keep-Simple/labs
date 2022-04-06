@@ -36,8 +36,59 @@ def cramer(mtrx, values):
     return res
 
 
-def matrix_method(mtrx, values):
-    pass
+def matrix_multply(A, B):
+    rows_A = len(A)
+    cols_A = len(A[0])
+    rows_B = len(B)
+    cols_B = len(B[0])
+
+    if cols_A != rows_B:
+        raise ValueError("One of the matrices is not eligible for multiplication")
+
+    res = [[0 for _ in range(cols_B)] for _ in range(rows_A)]
+
+    for i in range(rows_A):
+        for j in range(cols_B):
+            for k in range(cols_A):
+                res[i][j] += A[i][k] * B[k][j]
+    return res
+
+
+def matrix_method(eq_matrix, values):
+    width = len(values)
+    determinant = det(eq_matrix, width)
+    # algebraic complements
+    ac_matrix = []
+
+    if determinant == 0:
+        return []
+
+    for row in range(width):
+        ac_row = []
+
+        for column in range(width):
+            intermediate = eq_matrix.copy()
+
+            # delete row and column
+            intermediate.pop(row)
+            intermediate = [
+                list(x)
+                for x in zip(
+                    *[d for i, d in enumerate(zip(*intermediate)) if i != column]
+                )
+            ]
+
+            minor = det(intermediate, width - 1)
+            ac_row.append(pow(-1, row + column) * minor)
+
+        ac_matrix.append(ac_row)
+
+    ac_transposed_matrix = [list(x) for x in zip(*ac_matrix)]
+    ac_inverted_matrix = [[z / determinant for z in y] for y in ac_transposed_matrix]
+
+    dot_product = matrix_multply(ac_inverted_matrix, [[v] for v in values])
+
+    return [v[0] for v in dot_product]
 
 
 if __name__ == "__main__":

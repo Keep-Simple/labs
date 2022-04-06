@@ -1,6 +1,8 @@
-from scipy import misc, special
-from l1.l1 import equality as f, validate_range
 import math
+
+from l1.l1 import equality as f
+from l1.l1 import validate_range
+from scipy import misc, special
 
 
 def IterationsMethod(calc_x, x=1, eps=1e-2):
