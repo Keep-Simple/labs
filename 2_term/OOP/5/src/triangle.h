@@ -15,7 +15,7 @@ class Triangle {
 
   Triangle(TriangleSides sides);
 
-  bool isRectangular();
+  bool isRight();
   double getArea();
   double getPerimeter();
   TriangleAngles getAngles();

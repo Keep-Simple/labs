@@ -8,29 +8,37 @@
 #include "trianglesides.h"
 
 void TriangleWidget::onInputConfirm() {
-  TriangleSides sides;
-  sides.a = this->side_a->text().toDouble();
-  sides.b = this->side_b->text().toDouble();
-  sides.c = this->side_c->text().toDouble();
-  this->triangle = new Triangle(sides);
+  QLineEdit *sideInputs[] = {this->side_a, this->side_b, this->side_c};
+
+  if (!this->triangle) {
+    this->triangle = new Triangle();
+  }
+
+  sideInputs >> *this->triangle;
 
   emit valueChanged(this->triangle);
 }
 
-void TriangleWidget::onInputIncrease() {
-  this->triangle->increaseSidesBy(this->increaseSidesBy->text().toDouble());
+void TriangleWidget::onInputIncreaseBy() {
+  *this->triangle + this->increaseSidesBy->text().toDouble();
+
+  emit valueChanged(this->triangle);
+}
+
+void TriangleWidget::onInputIncreaseTimes() {
+  (*this->triangle) * (this->increaseSidesTimes->text().toDouble());
 
   emit valueChanged(this->triangle);
 }
 
 void TriangleWidget::onValueChange(Triangle *triangle) {
-  auto sides = triangle->getSides();
-  auto heights = triangle->getHeights();
-  auto angles = triangle->getAngles();
+  TriangleSides sides = triangle->getSides();
 
-  this->side_a->setText(QString::number(sides.a));
-  this->side_b->setText(QString::number(sides.b));
-  this->side_c->setText(QString::number(sides.c));
+  QLineEdit *sideInputs[] = {this->side_a, this->side_b, this->side_c};
+  TriangleHeights heights = triangle->getHeights();
+  TriangleAngles angles = triangle->getAngles();
+
+  sideInputs << *this->triangle;
 
   this->area->setText(QString::number(triangle->getArea()));
   this->perimeter->setText(QString::number(triangle->getPerimeter()));
@@ -68,6 +76,7 @@ TriangleWidget::TriangleWidget(QWidget *parent) : QWidget(parent) {
   this->side_c->setPlaceholderText("Side C");
 
   this->increaseSidesBy = new QLineEdit("1");
+  this->increaseSidesTimes = new QLineEdit("2");
 
   this->isRectangular = new QLineEdit;
   this->isRectangular->setReadOnly(true);
@@ -85,7 +94,8 @@ TriangleWidget::TriangleWidget(QWidget *parent) : QWidget(parent) {
   this->heights->setReadOnly(true);
 
   this->confirmInput = new QPushButton("Calculate");
-  this->confirmIncrease = new QPushButton("+ To each side");
+  this->confirmIncreaseBy = new QPushButton("+ to each side");
+  this->confirmIncreaseTimes = new QPushButton("* each side");
 
   mainLayout->addWidget(this->side_a, 0, 0);
   mainLayout->addWidget(this->side_b, 0, 1);
@@ -93,7 +103,9 @@ TriangleWidget::TriangleWidget(QWidget *parent) : QWidget(parent) {
   mainLayout->addWidget(this->confirmInput, 0, 3);
 
   mainLayout->addWidget(this->increaseSidesBy, 1, 0);
-  mainLayout->addWidget(this->confirmIncrease, 1, 1);
+  mainLayout->addWidget(this->confirmIncreaseBy, 1, 1);
+  mainLayout->addWidget(this->increaseSidesTimes, 1, 2);
+  mainLayout->addWidget(this->confirmIncreaseTimes, 1, 3);
 
   mainLayout->addWidget(new QLabel("Is right triangle:"), 3, 0);
   mainLayout->addWidget(this->isRectangular, 3, 1);
@@ -110,8 +122,11 @@ TriangleWidget::TriangleWidget(QWidget *parent) : QWidget(parent) {
   connect(this->confirmInput, &QPushButton::released, this,
           &TriangleWidget::onInputConfirm);
 
-  connect(this->confirmIncrease, &QPushButton::released, this,
-          &TriangleWidget::onInputIncrease);
+  connect(this->confirmIncreaseBy, &QPushButton::released, this,
+          &TriangleWidget::onInputIncreaseBy);
+
+  connect(this->confirmIncreaseTimes, &QPushButton::released, this,
+          &TriangleWidget::onInputIncreaseTimes);
 
   connect(this, &TriangleWidget::valueChanged, &TriangleWidget::onValueChange);
 

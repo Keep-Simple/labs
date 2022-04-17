@@ -24,7 +24,7 @@ Triangle::Triangle(TriangleSides sides) {
   this->setSides(sides);
 }
 
-bool Triangle::isRectangular() {
+bool Triangle::isRight() {
   return compare_double(pow(this->sides.c, 2),
                         pow(this->sides.a, 2) + pow(this->sides.b, 2));
 };
