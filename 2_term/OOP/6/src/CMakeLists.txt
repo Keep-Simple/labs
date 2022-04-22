@@ -18,11 +18,8 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 set(
   PROJECT_SOURCES
   main.cpp
-  triangle.cpp
-  triangle.h
-  trianglesides.h
-  triangleangles.h
-  triangleheights.h
+  polynom.cpp
+  polynom.h
   widget.cpp
   widget.h
 )

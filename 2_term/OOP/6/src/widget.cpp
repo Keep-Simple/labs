@@ -3,132 +3,127 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-#include "triangle.h"
-#include "triangleangles.h"
-#include "trianglesides.h"
+#include "polynom.h"
 
-void TriangleWidget::onInputConfirm() {
-  QLineEdit *sideInputs[] = {this->side_a, this->side_b, this->side_c};
+void PolynomWidget::onInputConfirm() {
+  QLineEdit *coffInputs[] = {this->coff_a, this->coff_b, this->coff_c};
 
-  if (!this->triangle) {
-    this->triangle = new Triangle();
-  }
+  coffInputs >> *this->polynom;
 
-  sideInputs >> *this->triangle;
-
-  emit valueChanged(this->triangle);
+  emit valueChanged();
 }
 
-void TriangleWidget::onInputIncreaseBy() {
-  *this->triangle + this->increaseSidesBy->text().toDouble();
-
-  emit valueChanged(this->triangle);
+void PolynomWidget::onInputIncreaseBy() {
+  (*this->polynom) * this->increaseBy->text().toDouble();
+  emit valueChanged();
 }
 
-void TriangleWidget::onInputIncreaseTimes() {
-  (*this->triangle) * (this->increaseSidesTimes->text().toDouble());
+void PolynomWidget::onConfirmSubstract() {
+  QLineEdit *coffI2nputs[] = {this->coff_a2, this->coff_b2, this->coff_c2};
+  Polynom substractPolynom;
 
-  emit valueChanged(this->triangle);
+  coffI2nputs >> substractPolynom;
+  (*this->polynom) - substractPolynom;
+
+  emit valueChanged();
 }
 
-void TriangleWidget::onValueChange(Triangle *triangle) {
-  TriangleSides sides = triangle->getSides();
+void PolynomWidget::onConfirmAdd() {
+  QLineEdit *coffI2nputs[] = {this->coff_a2, this->coff_b2, this->coff_c2};
+  Polynom addPolynom;
 
-  QLineEdit *sideInputs[] = {this->side_a, this->side_b, this->side_c};
-  TriangleHeights heights = triangle->getHeights();
-  TriangleAngles angles = triangle->getAngles();
+  coffI2nputs >> addPolynom;
+  (*this->polynom) + addPolynom;
 
-  sideInputs << *this->triangle;
-
-  this->area->setText(QString::number(triangle->getArea()));
-  this->perimeter->setText(QString::number(triangle->getPerimeter()));
-  this->isRectangular->setText(QVariant(triangle->isRight()).toString());
-
-  this->heights->setMarkdown(QString("### Triangle Heights:\n\n"
-                                     "*	AK: %1\n"
-                                     "* BK: %2\n"
-                                     "* CK: %3")
-                                 .arg(heights.ak)
-                                 .arg(heights.bk)
-                                 .arg(heights.ck));
-
-  this->angles->setMarkdown(QString("### Triangle Angles:\n\n"
-                                    "* ABC: %1\n"
-                                    "* BCA: %2\n"
-                                    "* CAB: %3")
-                                .arg(angles.abc)
-                                .arg(angles.bca)
-                                .arg(angles.cab));
+  emit valueChanged();
 }
 
-TriangleWidget::TriangleWidget(QWidget *parent) : QWidget(parent) {
+void PolynomWidget::onConfirmInvertCoff() {
+  !(*this->polynom);
+  emit valueChanged();
+}
+
+void PolynomWidget::onValueChange() {
+  QLineEdit *sideInputs[] = {this->coff_a, this->coff_b, this->coff_c};
+
+  sideInputs << *this->polynom;
+
+  this->y_value->setText(
+      QString::number((*this->polynom)(this->x_value->text().toDouble())));
+}
+
+PolynomWidget::PolynomWidget(QWidget *parent) : QWidget(parent) {
   QGridLayout *mainLayout = new QGridLayout;
 
-  this->triangle = nullptr;
+  this->polynom = new Polynom;
 
-  this->side_a = new QLineEdit("3");
-  this->side_a->setPlaceholderText("Side A");
+  this->coff_a = new QLineEdit("1");
+  this->coff_a->setPlaceholderText("Coff A");
 
-  this->side_b = new QLineEdit("4");
-  this->side_b->setPlaceholderText("Side B");
+  this->coff_b = new QLineEdit("2");
+  this->coff_b->setPlaceholderText("Coff B");
 
-  this->side_c = new QLineEdit("5");
-  this->side_c->setPlaceholderText("Side C");
+  this->coff_c = new QLineEdit("0");
+  this->coff_c->setPlaceholderText("Coff C");
 
-  this->increaseSidesBy = new QLineEdit("1");
-  this->increaseSidesTimes = new QLineEdit("2");
+  this->coff_a2 = new QLineEdit;
+  this->coff_a2->setPlaceholderText("Coff A2");
 
-  this->isRectangular = new QLineEdit;
-  this->isRectangular->setReadOnly(true);
+  this->coff_b2 = new QLineEdit;
+  this->coff_b2->setPlaceholderText("Coff B2");
 
-  this->area = new QLineEdit;
-  this->area->setReadOnly(true);
+  this->coff_c2 = new QLineEdit;
+  this->coff_c2->setPlaceholderText("Coff C2");
 
-  this->perimeter = new QLineEdit;
-  this->perimeter->setReadOnly(true);
+  this->x_value = new QLineEdit("1");
 
-  this->angles = new QTextEdit();
-  this->angles->setReadOnly(true);
+  this->increaseBy = new QLineEdit("2");
 
-  this->heights = new QTextEdit();
-  this->heights->setReadOnly(true);
+  this->y_value = new QLineEdit;
+  this->y_value->setReadOnly(true);
 
   this->confirmInput = new QPushButton("Calculate");
-  this->confirmIncreaseBy = new QPushButton("+ to each side");
-  this->confirmIncreaseTimes = new QPushButton("* each side");
+  this->confirmIncreaseBy = new QPushButton("Increasy coff by");
+  this->confirmInvertCoff = new QPushButton("Invert coff");
+  this->confirmAdd = new QPushButton("Add polynoms");
+  this->confirmSubstract = new QPushButton("Substract polynoms");
 
-  mainLayout->addWidget(this->side_a, 0, 0);
-  mainLayout->addWidget(this->side_b, 0, 1);
-  mainLayout->addWidget(this->side_c, 0, 2);
+  mainLayout->addWidget(this->coff_a, 0, 0);
+  mainLayout->addWidget(this->coff_b, 0, 1);
+  mainLayout->addWidget(this->coff_c, 0, 2);
   mainLayout->addWidget(this->confirmInput, 0, 3);
+  mainLayout->addWidget(this->confirmInvertCoff, 0, 4);
 
-  mainLayout->addWidget(this->increaseSidesBy, 1, 0);
-  mainLayout->addWidget(this->confirmIncreaseBy, 1, 1);
-  mainLayout->addWidget(this->increaseSidesTimes, 1, 2);
-  mainLayout->addWidget(this->confirmIncreaseTimes, 1, 3);
+  mainLayout->addWidget(this->coff_a2, 2, 0);
+  mainLayout->addWidget(this->coff_b2, 2, 1);
+  mainLayout->addWidget(this->coff_c2, 2, 2);
+  mainLayout->addWidget(this->confirmAdd, 2, 3);
+  mainLayout->addWidget(this->confirmSubstract, 2, 4);
 
-  mainLayout->addWidget(new QLabel("Is right triangle:"), 3, 0);
-  mainLayout->addWidget(this->isRectangular, 3, 1);
+  mainLayout->addWidget(this->increaseBy, 4, 0);
+  mainLayout->addWidget(this->confirmIncreaseBy, 4, 1);
 
-  mainLayout->addWidget(new QLabel("Area:"), 4, 0);
-  mainLayout->addWidget(this->area, 4, 1);
-
-  mainLayout->addWidget(new QLabel("Perimeter:"), 5, 0);
-  mainLayout->addWidget(this->perimeter, 5, 1);
-
-  mainLayout->addWidget(this->angles, 6, 0);
-  mainLayout->addWidget(this->heights, 6, 1);
+  mainLayout->addWidget(new QLabel("Enter x value"), 5, 0);
+  mainLayout->addWidget(this->x_value, 5, 1);
+  mainLayout->addWidget(new QLabel("Evaluated y value"), 5, 2);
+  mainLayout->addWidget(this->y_value, 5, 3);
 
   connect(this->confirmInput, &QPushButton::released, this,
-          &TriangleWidget::onInputConfirm);
+          &PolynomWidget::onInputConfirm);
 
   connect(this->confirmIncreaseBy, &QPushButton::released, this,
-          &TriangleWidget::onInputIncreaseBy);
+          &PolynomWidget::onInputIncreaseBy);
 
-  connect(this->confirmIncreaseTimes, &QPushButton::released, this,
-          &TriangleWidget::onInputIncreaseTimes);
+  connect(this->confirmInvertCoff, &QPushButton::released, this,
+          &PolynomWidget::onConfirmInvertCoff);
 
-  connect(this, &TriangleWidget::valueChanged, &TriangleWidget::onValueChange);
+  connect(this->confirmSubstract, &QPushButton::released, this,
+          &PolynomWidget::onConfirmSubstract);
+
+  connect(this->confirmAdd, &QPushButton::released, this,
+          &PolynomWidget::onConfirmAdd);
+
+  connect(this, &PolynomWidget::valueChanged, &PolynomWidget::onValueChange);
 
   setLayout(mainLayout);
 

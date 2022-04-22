@@ -29,21 +29,21 @@ set(
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(
-    lab6
+    lab5
     ${PROJECT_SOURCES}
   )
 else()
   if(ANDROID)
     add_library(
-      lab6 SHARED
+      lab5 SHARED
       ${PROJECT_SOURCES}
     )
   else()
     add_executable(
-      lab6
+      lab5
       ${PROJECT_SOURCES}
     )
   endif()
 endif()
 
-target_link_libraries(lab6 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(lab5 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

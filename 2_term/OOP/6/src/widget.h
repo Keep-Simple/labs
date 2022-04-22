@@ -6,40 +6,47 @@
 #include <QTextEdit>
 #include <QWidget>
 
-#include "triangle.h"
+#include "polynom.h"
 
-class TriangleWidget : public QWidget {
+class PolynomWidget : public QWidget {
   Q_OBJECT
 
  public:
-  TriangleWidget(QWidget *parent = nullptr);
+  PolynomWidget(QWidget *parent = nullptr);
 
  private slots:
   void onInputConfirm();
+  void onConfirmInvertCoff();
+  void onConfirmAdd();
+  void onConfirmSubstract();
   void onInputIncreaseBy();
-  void onInputIncreaseTimes();
-  void onValueChange(Triangle *triangle);
+  void onValueChange();
 
  signals:
-  void valueChanged(Triangle *triangle);
+  void valueChanged();
 
  private:
-  QLineEdit *side_a;
-  QLineEdit *side_b;
-  QLineEdit *side_c;
+  // read only
+  QLineEdit *y_value;
+
+  // write and read
+  QLineEdit *coff_a;
+  QLineEdit *coff_b;
+  QLineEdit *coff_c;
+
+  QLineEdit *coff_a2;
+  QLineEdit *coff_b2;
+  QLineEdit *coff_c2;
+
+  QLineEdit *x_value;
+
   QPushButton *confirmInput;
+  QPushButton *confirmInvertCoff;
+  QPushButton *confirmAdd;
+  QPushButton *confirmSubstract;
 
-  QLineEdit *increaseSidesBy;
-  QLineEdit *increaseSidesTimes;
-
+  QLineEdit *increaseBy;
   QPushButton *confirmIncreaseBy;
-  QPushButton *confirmIncreaseTimes;
 
-  QLineEdit *area;
-  QLineEdit *perimeter;
-  QLineEdit *isRectangular;
-  QTextEdit *angles;
-  QTextEdit *heights;
-
-  Triangle *triangle;
+  Polynom *polynom;
 };
