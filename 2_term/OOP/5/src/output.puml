@@ -1,0 +1,66 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+class Triangle {
+	+Triangle(TriangleSides sides)
+	+getAngles() : TriangleAngles
+	+getHeights() : TriangleHeights
+	+increaseSidesBy(const double by) : TriangleSides
+	-sides : TriangleSides
+	+getSides() : auto
+	+isRight() : bool
+	-isValid(TriangleSides sides) : bool
+	+getArea() : double
+	+getPerimeter() : double
+	+setSides(TriangleSides sides) : void
+}
+
+
+class TriangleAngles {
+	+abc : double
+	+bca : double
+	+cab : double
+}
+
+
+class TriangleHeights {
+	+ak : double
+	+bk : double
+	+ck : double
+}
+
+
+class TriangleSides {
+	+a : double
+	+b : double
+	+c : double
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+
+
+
+/' Aggregation relationships '/
+
+.Triangle *-- .TriangleSides
+
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml

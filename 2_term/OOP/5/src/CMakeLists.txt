@@ -20,9 +20,6 @@ set(
   main.cpp
   triangle.cpp
   triangle.h
-  trianglesides.h
-  triangleangles.h
-  triangleheights.h
   widget.cpp
   widget.h
 )

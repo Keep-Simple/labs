@@ -1,8 +1,25 @@
 #pragma once
 
-#include "triangleangles.h"
-#include "triangleheights.h"
-#include "trianglesides.h"
+class TriangleAngles {
+ public:
+  double abc;
+  double bca;
+  double cab;
+};
+
+class TriangleHeights {
+ public:
+  double ak;
+  double bk;
+  double ck;
+};
+
+class TriangleSides {
+ public:
+  double a;
+  double b;
+  double c;
+};
 
 class Triangle {
  private:

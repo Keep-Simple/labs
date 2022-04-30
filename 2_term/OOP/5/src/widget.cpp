@@ -3,10 +3,6 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-#include "triangle.h"
-#include "triangleangles.h"
-#include "trianglesides.h"
-
 void TriangleWidget::onInputConfirm() {
   TriangleSides sides;
   sides.a = this->side_a->text().toDouble();

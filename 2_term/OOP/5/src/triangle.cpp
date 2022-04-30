@@ -4,9 +4,6 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "triangleangles.h"
-#include "trianglesides.h"
-
 bool compare_double(double x, double y, double epsilon = 0.01) {
   return fabs(x - y) < epsilon;
 }
