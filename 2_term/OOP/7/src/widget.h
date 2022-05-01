@@ -1,32 +1,32 @@
 #pragma once
 
-#include "customdeque.h"
-
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QWidget>
 
+#include "uimatrix.h"
+
 class Widget : public QWidget {
   Q_OBJECT
 
-public:
+ public:
   Widget(QWidget *parent = nullptr);
 
-private slots:
-  void onFrontItemInsert();
-  void onRearItemInsert();
-  void onFrontItemDelete();
-  void onRearItemDelete();
-  void onQueueClear();
-  void onValueChange(CustomDeque *dq);
+  // private slots:
+  //  void onFrontItemInsert();
+  //  void onRearItemInsert();
+  //  void onFrontItemDelete();
+  //  void onRearItemDelete();
+  //  void onQueueClear();
+  //  void onValueChange(UIMatrix *);
 
-signals:
-  void valueChanged(CustomDeque *dq);
+  // signals:
+  //  void valueChanged(UIMatrix *);
 
-private:
-  CustomDeque *dq;
+ private:
+  UIMatrix *matrix;
 
   QListWidget *listWidget;
   QLineEdit *newQueueItemInput;

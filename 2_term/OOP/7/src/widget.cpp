@@ -1,57 +1,79 @@
 #include "widget.h"
 
 #include <QGridLayout>
+#include <iostream>
 
-void Widget::onQueueClear() {
-  this->dq->erase();
+// void Widget::onQueueClear() {
+//   this->dq->erase();
 
-  emit valueChanged(this->dq);
-}
+//   emit valueChanged(this->dq);
+// }
 
-void Widget::onFrontItemInsert() {
-  this->newQueueItemInput >> *this->dq;
+// void Widget::onFrontItemInsert() {
+//   this->newQueueItemInput >> *this->dq;
 
-  emit valueChanged(this->dq);
-};
+//   emit valueChanged(this->dq);
+// };
 
-void Widget::onRearItemInsert() {
-  *this->dq >> this->newQueueItemInput;
+// void Widget::onRearItemInsert() {
+//   *this->dq >> this->newQueueItemInput;
 
-  emit valueChanged(this->dq);
-};
+//   emit valueChanged(this->dq);
+// };
 
-void Widget::onFrontItemDelete() {
-  this->dq->deleteFront();
+// void Widget::onFrontItemDelete() {
+//   this->dq->deleteFront();
 
-  emit valueChanged(this->dq);
-}
+//   emit valueChanged(this->dq);
+// }
 
-void Widget::onRearItemDelete() {
-  this->dq->deleteRear();
+// void Widget::onRearItemDelete() {
+//   this->dq->deleteRear();
 
-  emit valueChanged(this->dq);
-}
+//   emit valueChanged(this->dq);
+// }
 
-void Widget::onValueChange(CustomDeque *dq) {
-  this->newQueueItemInput->clear();
+// void Widget::onValueChange(UIMatrix *matrix) {
+// this->newQueueItemInput->clear();
 
-  this->biggestValueInput->setText(QString::number(dq->getMaxValue()));
-  this->smallestValueInput->setText(QString::number(dq->getMinValue()));
-  this->averageValueInput->setText(QString::number(dq->getMinValue()));
+// this->biggestValueInput->setText(QString::number(dq->getMaxValue()));
+// this->smallestValueInput->setText(QString::number(dq->getMinValue()));
+// this->averageValueInput->setText(QString::number(dq->getMinValue()));
 
-  this->listWidget >> *dq;
-}
+// this->listWidget >> *matrix;
+// }
 
 Widget::Widget(QWidget *parent) : QWidget(parent) {
-  QGridLayout *mainLayout = new QGridLayout;
-  QGridLayout *queueControlButtonsLayout = new QGridLayout;
+  auto *mainLayout = new QGridLayout;
+  auto *queueControlButtonsLayout = new QGridLayout;
 
   QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   sizePolicy.setHorizontalStretch(0);
   sizePolicy.setVerticalStretch(0);
 
-  this->dq = new CustomDeque;
+  this->matrix = new UIMatrix(10, 10, 1.0);
   this->listWidget = new QListWidget;
+  UIMatrix mat1(10, 10, 1.0);
+  UIMatrix mat2(10, 10, 2.0);
+
+  mat1(0, 0) = 10;
+  mat1(1, 0) = 90;
+  mat1(0, 2) = 0.1;
+  mat1(3, 3) = -10;
+  mat1(3, 3) = -100;
+
+  std::cout << mat1.get_abs_max() << std::endl;
+  std::cout << mat1.get_max_negative() << std::endl;
+  std::cout << mat1.get_min_positive() << std::endl;
+
+  auto mat3 = mat1 + mat2;
+
+  for (auto i = 0; i < mat3.get_rows(); i++) {
+    for (auto j = 0; j < mat3.get_cols(); j++) {
+      std::cout << mat3(i, j) << ", ";
+    }
+    std::cout << std::endl;
+  }
 
   this->insertFrontItemButton = new QPushButton("Insert");
   this->insertRearItemButton = new QPushButton("Insert");
@@ -66,10 +88,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent) {
   this->biggestValueInput = new QLineEdit;
   this->averageValueInput = new QLineEdit;
 
-  QLabel *frontLabel = new QLabel(QString("Front").toUpper());
+  auto frontLabel = new QLabel(QString("Front").toUpper());
   frontLabel->setAlignment(Qt::AlignLeft);
 
-  QLabel *rearLabel = new QLabel(QString("Rear").toUpper());
+  auto rearLabel = new QLabel(QString("Rear").toUpper());
   rearLabel->setAlignment(Qt::AlignRight);
 
   smallestValueInput->setDisabled(true);
@@ -99,22 +121,22 @@ Widget::Widget(QWidget *parent) : QWidget(parent) {
   mainLayout->addWidget(new QLabel("Average value:"), 5, 0);
   mainLayout->addWidget(this->averageValueInput, 5, 1);
 
-  connect(this->insertFrontItemButton, &QPushButton::released, this,
-          &Widget::onFrontItemInsert);
+  // connect(this->insertFrontItemButton, &QPushButton::released, this,
+  //         &Widget::onFrontItemInsert);
 
-  connect(this->insertRearItemButton, &QPushButton::released, this,
-          &Widget::onRearItemInsert);
+  // connect(this->insertRearItemButton, &QPushButton::released, this,
+  //         &Widget::onRearItemInsert);
 
-  connect(this->deleteFrontItemButton, &QPushButton::released, this,
-          &Widget::onFrontItemDelete);
+  // connect(this->deleteFrontItemButton, &QPushButton::released, this,
+  //         &Widget::onFrontItemDelete);
 
-  connect(this->deleteRearItemButton, &QPushButton::released, this,
-          &Widget::onRearItemDelete);
+  // connect(this->deleteRearItemButton, &QPushButton::released, this,
+  //         &Widget::onRearItemDelete);
 
-  connect(this->clearQueueButton, &QPushButton::released, this,
-          &Widget::onQueueClear);
+  // connect(this->clearQueueButton, &QPushButton::released, this,
+  //         &Widget::onQueueClear);
 
-  connect(this, &Widget::valueChanged, &Widget::onValueChange);
+  // connect(this, &Widget::valueChanged, &Widget::onValueChange);
 
   setLayout(mainLayout);
 }
