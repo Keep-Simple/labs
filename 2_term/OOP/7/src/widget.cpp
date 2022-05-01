@@ -3,140 +3,108 @@
 #include <QGridLayout>
 #include <iostream>
 
-// void Widget::onQueueClear() {
-//   this->dq->erase();
+void Widget::on_add() {
+  this->sync_with_table();
+  *this->matrix_res->mtrx = (*this->matrix_a->mtrx + *this->matrix_b->mtrx);
+  emit value_changed();
+}
 
-//   emit valueChanged(this->dq);
-// }
+void Widget::on_multiply() {
+  this->sync_with_table();
+  *this->matrix_res->mtrx = (*this->matrix_a->mtrx * *this->matrix_b->mtrx);
+  emit value_changed();
+}
 
-// void Widget::onFrontItemInsert() {
-//   this->newQueueItemInput >> *this->dq;
+void Widget::on_substract() {
+  this->sync_with_table();
+  *this->matrix_res->mtrx = (*this->matrix_a->mtrx - *this->matrix_b->mtrx);
+  emit value_changed();
+}
 
-//   emit valueChanged(this->dq);
-// };
+void Widget::on_transpose() {
+  this->sync_with_table();
+  *this->matrix_res->mtrx = this->matrix_res->mtrx->transpose();
+  emit value_changed();
+}
 
-// void Widget::onRearItemInsert() {
-//   *this->dq >> this->newQueueItemInput;
+void Widget::sync_with_table() {
+  this->ui_matrix_a >> *this->matrix_a;
+  this->ui_matrix_b >> *this->matrix_b;
+  this->ui_matrix_res >> *this->matrix_res;
+}
 
-//   emit valueChanged(this->dq);
-// };
+void Widget::sync_with_model() {
+  this->ui_matrix_a << *this->matrix_a;
+  this->ui_matrix_b << *this->matrix_b;
+  this->ui_matrix_res << *this->matrix_res;
+}
 
-// void Widget::onFrontItemDelete() {
-//   this->dq->deleteFront();
+void Widget::on_value_change() {
+  auto matrix = this->matrix_res;
+  this->max_abs_input->setText(QString::number(matrix->get_abs_max()));
+  this->max_negative_input->setText(
+      QString::number(matrix->get_max_negative()));
+  this->min_positive_input->setText(
+      QString::number(matrix->get_min_positive()));
 
-//   emit valueChanged(this->dq);
-// }
-
-// void Widget::onRearItemDelete() {
-//   this->dq->deleteRear();
-
-//   emit valueChanged(this->dq);
-// }
-
-// void Widget::onValueChange(UIMatrix *matrix) {
-// this->newQueueItemInput->clear();
-
-// this->biggestValueInput->setText(QString::number(dq->getMaxValue()));
-// this->smallestValueInput->setText(QString::number(dq->getMinValue()));
-// this->averageValueInput->setText(QString::number(dq->getMinValue()));
-
-// this->listWidget >> *matrix;
-// }
+  this->sync_with_model();
+}
 
 Widget::Widget(QWidget *parent) : QWidget(parent) {
   auto *mainLayout = new QGridLayout;
-  auto *queueControlButtonsLayout = new QGridLayout;
+  auto *btns_layout = new QGridLayout;
 
-  QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-  sizePolicy.setHorizontalStretch(0);
-  sizePolicy.setVerticalStretch(0);
+  this->matrix_a = new UIMatrix(10, 10, 1.0);
+  this->matrix_b = new UIMatrix(10, 10, 2.0);
+  this->matrix_res = new UIMatrix(10, 10, 0.0);
+  this->ui_matrix_a = new QTableWidget(10, 10);
+  this->ui_matrix_b = new QTableWidget(10, 10);
+  this->ui_matrix_res = new QTableWidget(10, 10);
 
-  this->matrix = new UIMatrix(10, 10, 1.0);
-  this->listWidget = new QListWidget;
-  UIMatrix mat1(10, 10, 1.0);
-  UIMatrix mat2(10, 10, 2.0);
+  this->add_matrices_btn = new QPushButton("Add");
+  this->substract_matrices_btn = new QPushButton("Substract");
+  this->multiply_matrices_btn = new QPushButton("Multiply");
+  this->transpose_matrix_btn = new QPushButton("Transpose");
 
-  mat1(0, 0) = 10;
-  mat1(1, 0) = 90;
-  mat1(0, 2) = 0.1;
-  mat1(3, 3) = -10;
-  mat1(3, 3) = -100;
+  this->min_positive_input = new QLineEdit;
+  this->max_negative_input = new QLineEdit;
+  this->max_abs_input = new QLineEdit;
+  min_positive_input->setReadOnly(true);
+  max_negative_input->setReadOnly(true);
+  max_abs_input->setReadOnly(true);
 
-  std::cout << mat1.get_abs_max() << std::endl;
-  std::cout << mat1.get_max_negative() << std::endl;
-  std::cout << mat1.get_min_positive() << std::endl;
+  btns_layout->addWidget(this->add_matrices_btn, 0, 0);
+  btns_layout->addWidget(this->substract_matrices_btn, 1, 0);
 
-  auto mat3 = mat1 + mat2;
+  btns_layout->addWidget(this->multiply_matrices_btn, 0, 2);
+  btns_layout->addWidget(this->transpose_matrix_btn, 1, 2);
 
-  for (auto i = 0; i < mat3.get_rows(); i++) {
-    for (auto j = 0; j < mat3.get_cols(); j++) {
-      std::cout << mat3(i, j) << ", ";
-    }
-    std::cout << std::endl;
-  }
+  mainLayout->addWidget(this->ui_matrix_a, 0, 0, 1, 1);
+  mainLayout->addWidget(this->ui_matrix_b, 0, 1, 1, 1);
+  mainLayout->addLayout(btns_layout, 1, 0, 1, 2);
+  mainLayout->addWidget(this->ui_matrix_res, 2, 0, 1, 2);
 
-  this->insertFrontItemButton = new QPushButton("Insert");
-  this->insertRearItemButton = new QPushButton("Insert");
-  this->deleteFrontItemButton = new QPushButton("Delete");
-  this->deleteRearItemButton = new QPushButton("Delete");
+  mainLayout->addWidget(new QLabel("Max negative:"), 3, 0);
+  mainLayout->addWidget(this->max_negative_input, 3, 1);
 
-  this->clearQueueButton = new QPushButton("Clear queue");
-  this->clearQueueButton->setSizePolicy(sizePolicy);
+  mainLayout->addWidget(new QLabel("Min postive:"), 4, 0);
+  mainLayout->addWidget(this->min_positive_input, 4, 1);
 
-  this->newQueueItemInput = new QLineEdit;
-  this->smallestValueInput = new QLineEdit;
-  this->biggestValueInput = new QLineEdit;
-  this->averageValueInput = new QLineEdit;
+  mainLayout->addWidget(new QLabel("Max abs:"), 5, 0);
+  mainLayout->addWidget(this->max_abs_input, 5, 1);
 
-  auto frontLabel = new QLabel(QString("Front").toUpper());
-  frontLabel->setAlignment(Qt::AlignLeft);
+  connect(this->add_matrices_btn, &QPushButton::released, this,
+          &Widget::on_add);
+  connect(this->substract_matrices_btn, &QPushButton::released, this,
+          &Widget::on_substract);
+  connect(this->multiply_matrices_btn, &QPushButton::released, this,
+          &Widget::on_multiply);
+  connect(this->transpose_matrix_btn, &QPushButton::released, this,
+          &Widget::on_transpose);
 
-  auto rearLabel = new QLabel(QString("Rear").toUpper());
-  rearLabel->setAlignment(Qt::AlignRight);
-
-  smallestValueInput->setDisabled(true);
-  biggestValueInput->setDisabled(true);
-  averageValueInput->setDisabled(true);
-
-  queueControlButtonsLayout->addWidget(frontLabel, 0, 0);
-  queueControlButtonsLayout->addWidget(this->insertFrontItemButton, 1, 0);
-  queueControlButtonsLayout->addWidget(this->deleteFrontItemButton, 2, 0);
-
-  queueControlButtonsLayout->addWidget(this->clearQueueButton, 1, 1, 2, 1);
-
-  queueControlButtonsLayout->addWidget(rearLabel, 0, 2);
-  queueControlButtonsLayout->addWidget(this->insertRearItemButton, 1, 2);
-  queueControlButtonsLayout->addWidget(this->deleteRearItemButton, 2, 2);
-
-  mainLayout->addWidget(this->listWidget, 0, 0, 1, 2);
-  mainLayout->addWidget(this->newQueueItemInput, 1, 0, 1, 2);
-  mainLayout->addLayout(queueControlButtonsLayout, 2, 0, 1, 2);
-
-  mainLayout->addWidget(new QLabel("Biggest value:"), 3, 0);
-  mainLayout->addWidget(this->biggestValueInput, 3, 1);
-
-  mainLayout->addWidget(new QLabel("Minimum value:"), 4, 0);
-  mainLayout->addWidget(this->smallestValueInput, 4, 1);
-
-  mainLayout->addWidget(new QLabel("Average value:"), 5, 0);
-  mainLayout->addWidget(this->averageValueInput, 5, 1);
-
-  // connect(this->insertFrontItemButton, &QPushButton::released, this,
-  //         &Widget::onFrontItemInsert);
-
-  // connect(this->insertRearItemButton, &QPushButton::released, this,
-  //         &Widget::onRearItemInsert);
-
-  // connect(this->deleteFrontItemButton, &QPushButton::released, this,
-  //         &Widget::onFrontItemDelete);
-
-  // connect(this->deleteRearItemButton, &QPushButton::released, this,
-  //         &Widget::onRearItemDelete);
-
-  // connect(this->clearQueueButton, &QPushButton::released, this,
-  //         &Widget::onQueueClear);
-
-  // connect(this, &Widget::valueChanged, &Widget::onValueChange);
+  connect(this, &Widget::value_changed, &Widget::on_value_change);
 
   setLayout(mainLayout);
+
+  this->sync_with_model();
 }

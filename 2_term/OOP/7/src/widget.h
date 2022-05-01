@@ -14,30 +14,34 @@ class Widget : public QWidget {
  public:
   Widget(QWidget *parent = nullptr);
 
-  // private slots:
-  //  void onFrontItemInsert();
-  //  void onRearItemInsert();
-  //  void onFrontItemDelete();
-  //  void onRearItemDelete();
-  //  void onQueueClear();
-  //  void onValueChange(UIMatrix *);
+ private slots:
+  void on_substract();
+  void on_add();
+  void on_multiply();
+  void on_transpose();
+  void on_value_change();
 
-  // signals:
-  //  void valueChanged(UIMatrix *);
+ signals:
+  void value_changed();
 
  private:
-  UIMatrix *matrix;
+  UIMatrix *matrix_a;
+  UIMatrix *matrix_b;
+  UIMatrix *matrix_res;
 
-  QListWidget *listWidget;
-  QLineEdit *newQueueItemInput;
+  QTableWidget *ui_matrix_a;
+  QTableWidget *ui_matrix_b;
+  QTableWidget *ui_matrix_res;
 
-  QPushButton *insertFrontItemButton;
-  QPushButton *insertRearItemButton;
-  QPushButton *deleteFrontItemButton;
-  QPushButton *deleteRearItemButton;
-  QPushButton *clearQueueButton;
+  QPushButton *add_matrices_btn;
+  QPushButton *substract_matrices_btn;
+  QPushButton *multiply_matrices_btn;
+  QPushButton *transpose_matrix_btn;
 
-  QLineEdit *biggestValueInput;
-  QLineEdit *smallestValueInput;
-  QLineEdit *averageValueInput;
+  QLineEdit *max_negative_input;
+  QLineEdit *min_positive_input;
+  QLineEdit *max_abs_input;
+
+  void sync_with_table();
+  void sync_with_model();
 };

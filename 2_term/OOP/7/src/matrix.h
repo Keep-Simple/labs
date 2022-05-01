@@ -5,15 +5,14 @@
 
 template <typename T>
 class Matrix {
- protected:
-  std::vector<std::vector<T> > mat;
-  unsigned rows;
-  unsigned cols;
-
  public:
   Matrix(unsigned _rows, unsigned _cols, const T& _initial);
   Matrix(const Matrix<T>& rhs);
   virtual ~Matrix();
+
+  std::vector<std::vector<T> > mat;
+  unsigned rows;
+  unsigned cols;
 
   Matrix<T>& operator=(const Matrix<T>& rhs);
   Matrix<T> operator+(const Matrix<T>& rhs);

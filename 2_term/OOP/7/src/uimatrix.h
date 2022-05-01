@@ -1,21 +1,19 @@
 #pragma once
-#import <QLabel>
-#import <QLineEdit>
-#import <QListWidget>
-#import <QTableWidget>
+#include <QTableWidget>
 
 #import "matrix.h"
 
-class UIMatrix : public Matrix<double> {
+class UIMatrix {
  public:
-  UIMatrix(unsigned _rows, unsigned _cols, const double &_initial)
-      : Matrix<double>(_rows, _cols, _initial){};
-  double getMaxValue();
+  UIMatrix(unsigned _rows, unsigned _cols, const double &_initial);
+  ~UIMatrix();
+
+  Matrix<double> *mtrx;
 
   double get_max_negative();
   double get_min_positive();
   double get_abs_max();
 
-  friend void operator>>(QListWidget *, UIMatrix &);
-  friend void operator<<(QListWidget *, UIMatrix &);
+  friend void operator>>(QTableWidget *, UIMatrix &);
+  friend void operator<<(QTableWidget *, UIMatrix &);
 };
