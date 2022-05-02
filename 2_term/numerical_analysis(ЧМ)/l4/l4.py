@@ -33,7 +33,8 @@ def gauss_elim(A, B):
                 # update vector b
                 B[i] = B[i] - cof * B[k]
         print(f"\nIteration {k}:")
-        _print_a_and_b(A, B)
+        print_matrix(A, "A")
+        print_matrix([B], "B")
 
     # backward substitution
     x = np.zeros(n)
@@ -111,44 +112,38 @@ def lu_decompose(A):
     return L, U, P
 
 
-def _print_a_and_b(a, b):
-    print("A:")
-    print_matrix(a)
-    print("B:")
-    print(b)
-
-
-def print_matrix(mtrx):
+def print_matrix(mtrx, name):
     s = [[str(e) for e in row] for row in mtrx]
     lens = [max(map(len, col)) for col in zip(*s)]
     fmt = "\t".join("{{:{}}}".format(x) for x in lens)
     table = [fmt.format(*row) for row in s]
+    print(f"\n{name}:")
     print("\n".join(table))
 
 
-if __name__ == "__main__":
-    print("Initial values:")
-    _print_a_and_b(A, B)
+def run_method(method_name, method, A, B):
+    print(f"\n\n{method_name} method:")
 
-    print("\n\nGause method:")
-    x = gauss_elim(A.copy(), B.copy())
+    print("\nInitial values:")
+    print_matrix(A, "A")
+    print_matrix([B], "B")
+
+    x = method(A, B)
     print("\nResulting vector x:")
     print(x)
     print("\nVerifying results: AX - B = ", np.dot(A, x) - B)
 
-    print("\n\nLU method:")
-    L, U, P = lu_decompose(A.copy())
 
-    print("\nL:")
-    print_matrix(L)
-    print("\nU:")
-    print_matrix(U)
-    print("\nP:")
-    print_matrix(P)
+def lu(A, B):
+    L, U, P = lu_decompose(A.copy())
+    print_matrix(L, "L")
+    print_matrix(U, "U")
+    print_matrix(P, "P")
     print("\nIs LU = PA:", np.array_equal(np.dot(L, U), np.dot(P, A)))
 
-    x = lu_solve(L, U, P, B.copy())
-    print("\nResulting vector x:")
-    print(x)
+    return lu_solve(L, U, P, B.copy())
 
-    print("\nVerifying results: AX - B = ", np.dot(A, x) - B)
+
+if __name__ == "__main__":
+    run_method(method_name="Gause", method=gauss_elim, A=A.copy(), B=B.copy())
+    run_method(method_name="LU", method=lu, A=A.copy(), B=B.copy())
