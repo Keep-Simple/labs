@@ -1,0 +1,71 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+abstract class BankDeposit {
+	+BankDeposit(long _open_date, long _terminate_date, double _rate, double _amount)
+	#amount : double
+	+{abstract} calculate_income(long to) : double
+	+{abstract} calculate_income() : double
+	#rate : double
+	#open_date : long
+	#termination_date : long
+	+{abstract} print_class_name() : std::string
+}
+
+
+class ComplexBankDeposit {
+	+ComplexBankDeposit(long _open_date, long _terminate_date, double _rate, double _amount)
+	+calculate_income(long to) : double
+	+calculate_income() : double
+	+print_class_name() : std::string
+}
+
+
+class SimpleBankDeposit {
+	+SimpleBankDeposit(long _open_date, long _terminate_date, double _rate, double _amount)
+	+calculate_income(long to) : double
+	+calculate_income() : double
+	+print_class_name() : std::string
+}
+
+
+class VIPBankDeposit {
+	+VIPBankDeposit(long _open_date, long _terminate_date, double _rate, double _amount)
+	+print_class_name() : std::string
+	+add_money(double) : void
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+.BankDeposit <|-- .ComplexBankDeposit
+
+
+.BankDeposit <|-- .SimpleBankDeposit
+
+
+.ComplexBankDeposit <|-- .VIPBankDeposit
+
+
+
+
+
+/' Aggregation relationships '/
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml
