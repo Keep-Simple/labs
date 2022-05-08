@@ -1,5 +1,5 @@
 import { FileSearchOutlined } from "@ant-design/icons";
-import { Button, message, Upload } from "antd";
+import { Button, message, notification, Upload } from "antd";
 import { RcFile } from "antd/lib/upload";
 import { Student, studentsValidator } from "../utils/schemas";
 
@@ -14,14 +14,17 @@ export const LoadStudents: React.FC<Props> = ({ onStudents }) => {
       reader.readAsText(file);
       reader.onload = () => {
         const raw = reader.result?.toString() || "[]";
-        const students = JSON.parse(raw);
+        const students: Student[] = JSON.parse(raw);
+        const errors = studentsValidator(students);
 
-        if (!studentsValidator(students) && studentsValidator.errors) {
-          const error = studentsValidator.errors[0];
-          message.error(
-            `Detected type error at path ${error.instancePath}, ${error.message}. 
-             Please fix and try again.`,
-            10
+        if (errors?.length) {
+          errors.forEach((e) =>
+            notification.error({
+              message: `${e.message}`,
+              description: `Please fix the detected error: ${e.meta}`,
+              placement: "bottomLeft",
+              duration: 30,
+            })
           );
           return resolve({});
         }

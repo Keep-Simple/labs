@@ -10,10 +10,13 @@ interface Props {
 export const DownloadStudents: React.FC<Props> = ({ students }) => {
   const studentsFile = useMemo(() => {
     if (!students.length) return;
-    const file = new Blob([studentsSerializer(students)], {
-      type: "application/json",
-    });
-    return URL.createObjectURL(file);
+
+    const raw = studentsSerializer(students);
+    return URL.createObjectURL(
+      new Blob([raw], {
+        type: "application/json",
+      })
+    );
   }, [students]);
 
   return (

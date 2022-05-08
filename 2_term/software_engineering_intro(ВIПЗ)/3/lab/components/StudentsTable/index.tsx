@@ -4,7 +4,7 @@ import Search from "antd/lib/input/Search";
 import { ColumnsType } from "antd/lib/table";
 import moment from "moment";
 import React, { Ref, useState } from "react";
-import { Student } from "../../utils/schemas";
+import { customStudentValidators, Student } from "../../utils/schemas";
 import { DownloadStudents } from "../DownloadStudents";
 import { LoadStudents } from "../LoadStudents";
 import { EditableCell } from "./Cell";
@@ -43,23 +43,13 @@ const columns: Array<ColumnsType<Student>[number] & StudentsTableEditProps> = [
       deserialize: (value: number[]) => value.join(","),
       rules: [
         () => ({
-          validator(_: any, value: string) {
-            const parsed_marks = value.split(",").filter(Boolean);
-            const has_not_number = parsed_marks.some((m) => !/^-?\d+$/.test(m));
-            const out_of_range = parsed_marks
-              .map(Number)
-              .some((m) => m < 1 || m > 5);
+          transform: (value) => value.split(",").filter(Boolean),
+          validator: async (_, grades) => {
+            const errors = customStudentValidators["grades"]?.({
+              grades,
+            } as Student);
 
-            if (has_not_number)
-              return Promise.reject(
-                new Error("Must be coma separated numbers")
-              );
-            if (out_of_range)
-              return Promise.reject(
-                new Error("Numbers must be in range of 1-5")
-              );
-
-            return Promise.resolve();
+            if (errors?.length) throw new Error(errors[0]);
           },
         }),
       ],
@@ -84,7 +74,12 @@ const columns: Array<ColumnsType<Student>[number] & StudentsTableEditProps> = [
     render: (value) => moment(value).format("DD-MM-YYYY"),
     edit: {
       component: (save, ref) => (
-        <DatePicker ref={ref} onBlur={save} format="DD-MM-YYYY" />
+        <DatePicker
+          ref={ref}
+          format="DD-MM-YYYY"
+          onBlur={save}
+          disabledDate={(date) => date.isAfter(moment())}
+        />
       ),
       serialize: (value: moment.Moment) => value.toISOString(),
       deserialize: (value: string) => moment(value),
