@@ -1,7 +1,7 @@
 import { SaveOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useMemo } from "react";
-import { Student } from "./StudentsTable";
+import { Student, studentsSerializer } from "../utils/schemas";
 
 interface Props {
   students: Student[];
@@ -9,8 +9,8 @@ interface Props {
 
 export const DownloadStudents: React.FC<Props> = ({ students }) => {
   const studentsFile = useMemo(() => {
-    if (!students.length) return "";
-    const file = new Blob([JSON.stringify(students)], {
+    if (!students.length) return;
+    const file = new Blob([studentsSerializer(students)], {
       type: "application/json",
     });
     return URL.createObjectURL(file);

@@ -1,7 +1,7 @@
 import { FileSearchOutlined } from "@ant-design/icons";
-import { Button, Upload, message } from "antd";
+import { Button, message, Upload } from "antd";
 import { RcFile } from "antd/lib/upload";
-import { Student } from "./StudentsTable";
+import { Student, studentsValidator } from "../utils/schemas";
 
 interface Props {
   onStudents: (students: Student[]) => void;
@@ -13,18 +13,26 @@ export const LoadStudents: React.FC<Props> = ({ onStudents }) => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
-        try {
-          const students: Student[] = JSON.parse(
-            reader.result?.toString() || ""
+        const raw = reader.result?.toString() || "[]";
+        const students = JSON.parse(raw);
+
+        if (!studentsValidator(students) && studentsValidator.errors) {
+          const error = studentsValidator.errors[0];
+          message.error(
+            `Detected type error at path ${error.instancePath}, ${error.message}. 
+             Please fix and try again.`,
+            10
           );
+          return resolve({});
+        }
+
+        if (students.length) {
           onStudents(students);
           message.success(`Loaded students from ${file.name}`);
-          resolve({});
-        } catch {
-          message.error(
-            `Failed loading students. Make sure file isn't corrupted`
-          );
+        } else {
+          message.info(`File ${file.name} was emtpy`);
         }
+        resolve({});
       };
     });
 

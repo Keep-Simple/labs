@@ -1,6 +1,7 @@
 import { Form, Input, InputRef } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Student, StudentsTableEditProps } from ".";
+import { StudentsTableEditProps } from ".";
+import { Student } from "../../utils/schemas";
 import { EditableContext } from "./Row";
 
 interface EditableCellProps {

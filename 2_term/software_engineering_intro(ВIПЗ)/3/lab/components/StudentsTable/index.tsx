@@ -4,18 +4,11 @@ import Search from "antd/lib/input/Search";
 import { ColumnsType } from "antd/lib/table";
 import moment from "moment";
 import React, { Ref, useState } from "react";
+import { Student } from "../../utils/schemas";
 import { DownloadStudents } from "../DownloadStudents";
 import { LoadStudents } from "../LoadStudents";
 import { EditableCell } from "./Cell";
 import { EditableRow } from "./Row";
-
-export type Student = {
-  key: number;
-  name: string;
-  surname: string;
-  grades: number[];
-  birthDate: string;
-};
 
 export type StudentsTableEditProps = {
   edit?: {
