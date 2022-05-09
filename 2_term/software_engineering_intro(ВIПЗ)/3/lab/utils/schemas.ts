@@ -43,17 +43,15 @@ export const customStudentValidators: Partial<
   },
 } as const;
 
-type StudentsValidatorReturnType = Array<{ message: string; meta: string }>;
+export type StudentsValidatorReturnType = Array<{
+  message: string;
+  meta: string;
+}>;
 
 export const studentsValidator = (
   students: Student[]
 ): StudentsValidatorReturnType => {
   _compiledValidator(students);
-
-  const capitalize = (s: any) => {
-    if (typeof s !== "string") return "";
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  };
 
   const errors: StudentsValidatorReturnType =
     _compiledValidator.errors?.map((e) => ({
@@ -77,4 +75,9 @@ export const studentsValidator = (
   );
 
   return errors;
+};
+
+const capitalize = (s: any) => {
+  if (typeof s !== "string") return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
 };

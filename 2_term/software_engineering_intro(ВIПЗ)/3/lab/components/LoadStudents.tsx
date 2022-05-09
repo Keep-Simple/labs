@@ -1,7 +1,11 @@
 import { FileSearchOutlined } from "@ant-design/icons";
 import { Button, message, notification, Upload } from "antd";
 import { RcFile } from "antd/lib/upload";
-import { Student, studentsValidator } from "../utils/schemas";
+import {
+  Student,
+  studentsValidator,
+  StudentsValidatorReturnType,
+} from "../utils/schemas";
 
 interface Props {
   onStudents: (students: Student[]) => void;
@@ -14,8 +18,20 @@ export const LoadStudents: React.FC<Props> = ({ onStudents }) => {
       reader.readAsText(file);
       reader.onload = () => {
         const raw = reader.result?.toString() || "[]";
-        const students: Student[] = JSON.parse(raw);
-        const errors = studentsValidator(students);
+        let students: Student[] = [];
+        let errors: StudentsValidatorReturnType = [];
+
+        try {
+          students = JSON.parse(raw);
+        } catch (e) {
+          if (e instanceof Error) {
+            errors.push({
+              message: `File is corrupted (wrong json)`,
+              meta: e.message,
+            });
+          }
+        }
+        errors.push(...studentsValidator(students));
 
         if (errors?.length) {
           errors.forEach((e) =>

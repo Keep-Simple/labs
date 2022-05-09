@@ -1,5 +1,5 @@
 import { SaveOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useMemo } from "react";
 import { Student, studentsSerializer } from "../utils/schemas";
 
@@ -23,6 +23,9 @@ export const DownloadStudents: React.FC<Props> = ({ students }) => {
     <Button
       icon={<SaveOutlined />}
       download="students.json"
+      onClick={() => {
+        if (!students.length) message.warn("There is nothing to save");
+      }}
       href={studentsFile}
     >
       Save
