@@ -44,35 +44,37 @@ def gauss_elim(A, B):
     return x
 
 
+def forward_sub(L, b):
+    """solution to Lx = b
+    L must be a lower-triangular matrix
+    b must be a vector of the same leading dimension as L
+    """
+    n = len(L)
+    x = np.zeros(n)
+    for i in range(n):
+        sum = 0
+        for j in range(i):
+            sum += L[i, j] * x[j]
+        x[i] = (b[i] - sum) / L[i, i]
+    return x
+
+
+def back_sub(U, b):
+    """solution to Ux = b
+    U must be an upper-triangular matrix
+    b must be a vector of the same leading dimension as U
+    """
+    n = len(U)
+    x = np.zeros(n)
+    for i in range(n - 1, -1, -1):
+        sum = 0
+        for j in range(n - 1, i, -1):
+            sum += U[i, j] * x[j]
+        x[i] = (b[i] - sum) / U[i, i]
+    return x
+
+
 def lu_solve(L, U, P, B):
-    def forward_sub(L, b):
-        """solution to Lx = b
-        L must be a lower-triangular matrix
-        b must be a vector of the same leading dimension as L
-        """
-        n = len(L)
-        x = np.zeros(n)
-        for i in range(n):
-            sum = 0
-            for j in range(i):
-                sum += L[i, j] * x[j]
-            x[i] = (b[i] - sum) / L[i, i]
-        return x
-
-    def back_sub(U, b):
-        """solution to Ux = b
-        U must be an upper-triangular matrix
-        b must be a vector of the same leading dimension as U
-        """
-        n = len(U)
-        x = np.zeros(n)
-        for i in range(n - 1, -1, -1):
-            sum = 0
-            for j in range(n - 1, i, -1):
-                sum += U[i, j] * x[j]
-            x[i] = (b[i] - sum) / U[i, i]
-        return x
-
     y = forward_sub(L, np.dot(P, B))
     x = back_sub(U, y)
     return x

@@ -1,0 +1,9 @@
+[
+  {
+    "key": 0,
+    "name": "Crystal",
+    "surname": "Turner",
+    "grades": [4, 3, 4, 4, 3, 5],
+    "birthDate": "5.9.2022"
+  }
+]

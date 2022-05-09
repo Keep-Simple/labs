@@ -69,4 +69,3 @@ if __name__ == "__main__":
     if is_convergent(A):
         run_method(method_name="Jacobi", method=jacobi, A=A, B=B)
         run_method(method_name="Seidel", method=seidel, A=A, B=B)
-        print

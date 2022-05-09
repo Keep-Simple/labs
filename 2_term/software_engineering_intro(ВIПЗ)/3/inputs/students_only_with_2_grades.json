@@ -1,0 +1,23 @@
+[
+  {
+    "key": 0,
+    "name": "Crystal",
+    "surname": "Turner",
+    "grades": [2, 2, 2, 2, 2, 2],
+    "birthDate": "Wed Sep 23 1998 18:34:36 GMT+0300 (Eastern European Summer Time)"
+  },
+  {
+    "key": 1,
+    "name": "Hensley",
+    "surname": "Guzman",
+    "grades": [2, 2, 2, 2, 2, 2],
+    "birthDate": "Mon Jun 18 2001 08:05:28 GMT+0300 (Eastern European Summer Time)"
+  },
+  {
+    "key": 2,
+    "name": "Katherine",
+    "surname": "Lambert",
+    "grades": [2, 2, 2, 2, 2, 2],
+    "birthDate": "Wed Sep 11 2002 22:21:28 GMT+0300 (Eastern European Summer Time)"
+  }
+]
