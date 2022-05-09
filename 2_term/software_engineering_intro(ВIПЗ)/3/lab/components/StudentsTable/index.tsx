@@ -4,6 +4,7 @@ import Search from "antd/lib/input/Search";
 import { ColumnsType } from "antd/lib/table";
 import moment from "moment";
 import React, { Ref, useState } from "react";
+import { calcAvarageGrade } from "../../utils";
 import { customStudentValidators, Student } from "../../utils/schemas";
 import { DownloadStudents } from "../DownloadStudents";
 import { LoadStudents } from "../LoadStudents";
@@ -35,8 +36,19 @@ const columns: Array<ColumnsType<Student>[number] & StudentsTableEditProps> = [
     title: "Grades",
     dataIndex: "grades",
     render: (value: number[]) => value.join(","),
-    filters: [{ text: "Hide with 2 grade", value: "" }],
-    onFilter: (_, record) => !record.grades.includes(2),
+    filters: [
+      {
+        text: "Hide with 2 grade",
+        value: (record: Student) => !record.grades.includes(2),
+      },
+      ,
+      {
+        text: "Show with only 4 or 5 grades",
+        value: (record: Student) =>
+          !record.grades.some((grade) => ![4, 5].includes(grade)),
+      },
+    ] as any,
+    onFilter: (f: any, record) => f(record),
     edit: {
       serialize: (value: string) =>
         value.split(",").filter(Boolean).map(Number),
@@ -59,17 +71,13 @@ const columns: Array<ColumnsType<Student>[number] & StudentsTableEditProps> = [
     title: "Avarage",
     width: "10%",
     dataIndex: "" as any,
-    render: (_, record) => {
-      if (!record.grades.length) return 0;
-      const gradesSum = record.grades.reduce((sum, grade) => sum + grade, 0);
-      return (gradesSum / record.grades.length).toFixed(2);
-    },
+    render: (_, record) => calcAvarageGrade(record),
   },
   {
     title: "Birth",
     dataIndex: "birthDate",
     width: "20%",
-    defaultSortOrder: "ascend",
+    defaultSortOrder: "descend",
     sorter: (a, b) => (moment(a.birthDate).isAfter(b.birthDate) ? 1 : -1),
     render: (value) => moment(value).format("DD-MM-YYYY"),
     edit: {
@@ -156,6 +164,10 @@ export const StudentsTable: React.FC = () => {
         bordered
         dataSource={filteredStudents}
         columns={uicolumns as typeof columns}
+        pagination={{
+          pageSizeOptions: [2, 10, 30, 50, 100],
+          defaultPageSize: 30,
+        }}
         components={{
           body: {
             row: EditableRow,

@@ -1,5 +1,6 @@
 import Ajv, { JTDDataType } from "ajv/dist/jtd";
 import moment from "moment";
+import { capitalize } from ".";
 
 const studentSchema = {
   elements: {
@@ -75,9 +76,4 @@ export const studentsValidator = (
   );
 
   return errors;
-};
-
-const capitalize = (s: any) => {
-  if (typeof s !== "string") return "";
-  return s.charAt(0).toUpperCase() + s.slice(1);
 };
