@@ -35,7 +35,7 @@ def least_squares(A: np.ndarray, B: np.ndarray):
 
     print_matrix(AT, "A transposed (AT)")
     print_matrix(N, "N = AT * A")
-    print_matrix([C], "N = AT * B")
+    print_matrix([C], "C = AT * B")
     print(f"\nDeterminant of N = {N_det}")
 
     if N_det <= 0:
