@@ -1,5 +1,5 @@
-#ifndef __QS_MATRIX_H
-#define __QS_MATRIX_H
+#ifndef __ARRAY_H
+#define __ARRAY_H
 
 #include <vector>
 

@@ -1,0 +1,93 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+abstract class Array <template<typename T>> {
+	+{abstract} includes(T const) : bool {query}
+	+{abstract} length() : int {query}
+	+{abstract} push(T const &) : void
+}
+
+
+class Array2 <template<typename T>> {
+}
+
+
+abstract class ArrayInfoPrinter <template<typename T>> {
+	+get_info() : std::string {query}
+	+{abstract} get_info_abstract() : std::string {query}
+}
+
+
+class BasicArray <template<typename T>> {
+	+includes(T const) : bool {query}
+	+length() : int {query}
+	+get_info_abstract() : std::string {query}
+	-elements : std::vector<T>
+	+push(T const &) : void
+}
+
+
+class SinglyLinkedArray <template<typename T>> {
+	+SinglyLinkedArray()
+	+~SinglyLinkedArray()
+	-head : Node
+	+includes(T const) : bool {query}
+	+length() : int {query}
+	+get_info_abstract() : std::string {query}
+	+push(T const &) : void
+}
+
+
+class SinglyLinkedArray::Node {
+	+Node()
+	+Node(T data)
+	+next : Node
+	+data : T
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+.Array <|-- .BasicArray
+
+
+.Array <|-- .SinglyLinkedArray
+
+
+.Array2 <|-- .BasicArray
+
+
+.Array2 <|-- .SinglyLinkedArray
+
+
+.ArrayInfoPrinter <|-- .Array
+
+
+.ArrayInfoPrinter <|-- .Array2
+
+
+
+
+
+/' Aggregation relationships '/
+
+
+
+
+
+/' Nested objects '/
+
+.SinglyLinkedArray +-- .SinglyLinkedArray::Node
+
+
+
+
+@enduml

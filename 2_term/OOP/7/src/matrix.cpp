@@ -1,5 +1,5 @@
-#ifndef __QS_MATRIX_CPP
-#define __QS_MATRIX_CPP
+#ifndef __ARRAY_CPP
+#define __ARRAY_CPP
 
 #include "matrix.h"
 
