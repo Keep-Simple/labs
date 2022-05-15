@@ -148,7 +148,7 @@ export const StudentsTable: React.FC = () => {
       <Space size="middle">
         <LoadStudents onStudents={setStudents} />
         <DownloadStudents students={filteredStudents} />
-        <Button onClick={handleAdd} type="primary">
+        <Button onClick={handleAdd} type="primary" title="Add student entry">
           Add
         </Button>
       </Space>

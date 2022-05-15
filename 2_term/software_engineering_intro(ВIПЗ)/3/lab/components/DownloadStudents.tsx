@@ -23,6 +23,7 @@ export const DownloadStudents: React.FC<Props> = ({ students }) => {
     <Button
       icon={<SaveOutlined />}
       download="students.json"
+      title="Save students to file"
       onClick={() => {
         if (!students.length) message.warn("There is nothing to save");
       }}

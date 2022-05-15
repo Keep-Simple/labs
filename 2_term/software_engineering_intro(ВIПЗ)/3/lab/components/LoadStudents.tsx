@@ -57,7 +57,12 @@ export const LoadStudents: React.FC<Props> = ({ onStudents }) => {
 
   return (
     <Upload accept=".json" beforeUpload={onLoad} showUploadList={false}>
-      <Button icon={<FileSearchOutlined />}>Load</Button>
+      <Button
+        icon={<FileSearchOutlined />}
+        title="Load students from selected file"
+      >
+        Load
+      </Button>
     </Upload>
   );
 };
