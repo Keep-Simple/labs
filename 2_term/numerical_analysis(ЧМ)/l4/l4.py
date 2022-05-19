@@ -13,7 +13,7 @@ A = np.array(
 B = np.array([2.71, 5.26, 1.03])
 
 
-def gauss_elim(A, B):
+def gauss_elim(A, B, mute=False):
     n = len(B)
 
     # Elimination phase
@@ -32,9 +32,11 @@ def gauss_elim(A, B):
                 A[i] = A[i] - cof * A[k]
                 # update vector b
                 B[i] = B[i] - cof * B[k]
-        print(f"\nIteration {k}:")
-        print_matrix(A, "A")
-        print_matrix([B], "B")
+
+        if not mute:
+            print(f"\nIteration {k}:")
+            print_matrix(A, "A")
+            print_matrix([B], "B")
 
     # backward substitution
     x = np.zeros(n)
