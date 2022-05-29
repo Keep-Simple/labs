@@ -3,7 +3,7 @@ import math
 import numpy as np
 from l4.l4 import gauss_elim
 
-# sin(x+0.5) - y = 1
+# sin(x+0.5) - y -1 = 0
 # cos(y-2) + x = 0
 
 
@@ -56,9 +56,9 @@ def newton_iterations(tolerance=1e-4):
     while True:
         iterations += 1
         A = Jf(X)
-        B = f(X)
+        B = -f(X)
         X_delta = gauss_elim(A, B, mute=True)
-        X -= X_delta
+        X += X_delta
         norm = np.linalg.norm(B)
 
         print(f"{iterations}: x={X[0]:.5f}, y={X[1]:.5f}, norm={norm:.5f}")
@@ -70,4 +70,3 @@ def newton_iterations(tolerance=1e-4):
 if __name__ == "__main__":
     simple_iterations()
     newton_iterations()
-    print
