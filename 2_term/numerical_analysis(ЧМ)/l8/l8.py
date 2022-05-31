@@ -1,4 +1,5 @@
 import numpy as np
+from l4.l4 import print_matrix
 
 points = (
     np.array(
@@ -25,7 +26,7 @@ def lagrange_at_x(points, x0):
     x_points, y_points = points
 
     n = len(x_points)
-    yp = 0  # interpolated value
+    y0 = 0  # interpolated value
 
     for i in range(n):
         p = 1
@@ -33,41 +34,36 @@ def lagrange_at_x(points, x0):
             if i == j:
                 continue
             p *= (x0 - x_points[j]) / (x_points[i] - x_points[j])
-        print(f"step: {i+1}, y={yp}")
-        yp += p * y_points[i]
+        y0 += p * y_points[i]
 
-    print(f"y0={yp}")
-    return yp
+    print(f"Result: y0={y0}")
+    return y0
 
 
-# Steps:
-# [-] Calculating f(x_prev, x_curr) and f(x_prev, x_curr, x_next)
-# whereas f(x_prev, x_curr, x_next) equals to ...
-# (f(x_curr, x_next) - f(x_prev, x_curr)) / x_next - x_prev
-# [-] Building the table of values
-# rows: [x_i | f_i | f(x_i, x_ii) | f(x_i, x_ii, x_iii)]
-# [-] Using formula calculating the polynomial
 def newton_at_x(points, x0):
     print(f"\nNewton method for x0={x0}:")
     x_points, y_points = points
-    m = len(x_points)
     a_coff = np.copy(y_points)
 
-    for k in range(1, m):
-        a_coff[k:m] = (a_coff[k:m] - a_coff[k - 1]) / (x_points[k:m] - x_points[k - 1])
+    for k in range(1, len(x_points)):
+        a_coff[k:] = (a_coff[k:] - a_coff[k - 1]) / (x_points[k:] - x_points[k - 1])
 
-    n = len(x_points) - 1  # Degree of polynomial
-    yp = a_coff[n]
+    print_matrix([a_coff], "Newton differences table (first row)")
+
+    n = len(x_points) - 1
+    y0 = a_coff[n]
 
     for k in range(1, n + 1):
-        yp = a_coff[n - k] + (x0 - x_points[n - k]) * yp
-        print(f"step: {k}, y={yp}")
+        y0 = a_coff[n - k] + (x0 - x_points[n - k]) * y0
 
-    print(f"y0={yp}")
-    return yp
+    print(f"\nResult: y0={y0}")
+    return y0
 
 
 if __name__ == "__main__":
+    print("Initial points:")
+    print_matrix([points[0]], "X")
+    print_matrix([points[1]], "Y")
+
     lagrange_at_x(points, x0)
     newton_at_x(points, x0)
-    print
