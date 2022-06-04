@@ -20,7 +20,6 @@ set(
   main.cpp
   widget.cpp
   widget.h
-  array.cpp
 )
 
 
