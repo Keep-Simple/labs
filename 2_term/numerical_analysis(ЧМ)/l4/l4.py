@@ -138,12 +138,13 @@ def run_method(method_name, method, A, B):
     print("\nVerifying results: AX - B = ", np.dot(A, x) - B)
 
 
-def lu(A, B):
+def lu(A, B, mute=False):
     L, U, P = lu_decompose(A.copy())
-    print_matrix(L, "L")
-    print_matrix(U, "U")
-    print_matrix(P, "P")
-    print("\nIs LU = PA:", np.array_equal(np.dot(L, U), np.dot(P, A)))
+    if not mute:
+        print_matrix(L, "L")
+        print_matrix(U, "U")
+        print_matrix(P, "P")
+        print("\nIs LU = PA:", np.array_equal(np.dot(L, U), np.dot(P, A)))
 
     return lu_solve(L, U, P, B.copy())
 
