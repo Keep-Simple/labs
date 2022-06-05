@@ -5,8 +5,6 @@
 #include <QWidget>
 #include <stack>
 
-#include "array.cpp"
-
 class Widget : public QWidget {
   Q_OBJECT
 
