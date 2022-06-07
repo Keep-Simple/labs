@@ -1,4 +1,5 @@
 import json
+import math
 import string
 
 import numpy as np
@@ -10,10 +11,10 @@ def f(x):
 
 a = 0
 b = 3
-N = 50
+eps = 0.01
 
 
-def left_rectangle_method(f, a, b, n=N):
+def left_rectangle_method(f, a, b, n):
     h = (b - a) / n
 
     def f_xi(i):
@@ -22,7 +23,7 @@ def left_rectangle_method(f, a, b, n=N):
     return h * np.sum([f_xi(i) for i in range(n - 1)])
 
 
-def right_rectangle_method(f, a, b, n=N):
+def right_rectangle_method(f, a, b, n):
     h = (b - a) / n
 
     def f_xi(i):
@@ -31,7 +32,7 @@ def right_rectangle_method(f, a, b, n=N):
     return h * np.sum([f_xi(i) for i in range(1, n)])
 
 
-def central_rectangle_method(f, a, b, n=N):
+def central_rectangle_method(f, a, b, n):
     h = (b - a) / n
 
     def f_xi(i):
@@ -40,7 +41,7 @@ def central_rectangle_method(f, a, b, n=N):
     return h * np.sum([f_xi(i + 0.5) for i in range(n - 1)])
 
 
-def trapezium_method(f, a, b, n=N):
+def trapezium_method(f, a, b, n):
     h = (b - a) / n
 
     def f_xi(i):
@@ -51,7 +52,7 @@ def trapezium_method(f, a, b, n=N):
     return trapezium
 
 
-def simpson_method(f, a, b, n=N):
+def simpson_method(f, a, b, n):
     h = (b - a) / n
 
     def f_xi(i):
@@ -79,18 +80,15 @@ if __name__ == "__main__":
         trapezium_method,
         simpson_method,
     ]:
-        print("--------------------------")
         print(snake_case_to_pascal_case(method.__name__))
-        results = []
-        for i in range(3):
-            n = N * (3**i)
+        n = math.ceil((b - a) / (eps ** (0.5)))
+        while True:
             print(">")
             print(f"n={n}")
-            res = method(f, a, b, n)
-            results.append(res)
-            print(json.dumps(res, indent=4))
-
-        better_res = results[0] - ((results[0] - results[1]) ** 2) / (
-            results[0] - 2 * results[1] + results[2]
-        )
-        print(f"\nAitken interpolation={better_res}")
+            res1 = method(f, a, b, n)
+            res2 = method(f, a, b, n * 2)
+            if math.fabs(res2 - res1) > eps:
+                n *= 2
+            else:
+                print(json.dumps(res2, indent=4))
+                break
