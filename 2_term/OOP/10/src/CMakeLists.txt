@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(11lab LANGUAGES CXX)
+project(12lab LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -26,21 +26,21 @@ set(
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(
-    11lab
+    12lab
     ${PROJECT_SOURCES}
   )
 else()
   if(ANDROID)
     add_library(
-      11lab SHARED
+      12lab SHARED
       ${PROJECT_SOURCES}
     )
   else()
     add_executable(
-      11lab
+      12lab
       ${PROJECT_SOURCES}
     )
   endif()
 endif()
 
-target_link_libraries(11lab PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(12lab PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

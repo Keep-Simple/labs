@@ -20,6 +20,8 @@ set(
   main.cpp
   widget.cpp
   widget.h
+  vyraz.h
+  vyraz.cpp
 )
 
 
