@@ -1,0 +1,52 @@
+@startuml
+abstract class Людина {
++name: String
++age: Number
+}
+class Бібліотекар {
++get_book_for_visitor()
++work()
+}
+class Бібліотека {
++people: Людина[]
++books: Книга[]
++location: String
++income: Прибуток
+}
+class Книга {
++count: Number
++name: String
++author: String
+}
+class Відвідувач {
++books: Книга[]
++books_read: Number
++ask_for_book()
++return_book()
+}
+class Прибуток {
++amount: Number
+}
+abstract class Працівник {
+#salary: Number
++year_of_experience: Number
+{abstract} work()
+}
+class Адміністратор { 
++add_librarian()
++order_books()
++work()
+}
+
+Бібліотека o-- Людина
+Людина <|-- Працівник
+Людина <|-- Відвідувач
+Відвідувач --> Книга  
+Прибуток ..> Відвідувач
+Бібліотека *.. Прибуток
+Працівник <|-- Бібліотекар
+Працівник <|-- Адміністратор
+Адміністратор --> Бібліотека 
+Бібліотека o-- Книга 
+Бібліотекар --> Відвідувач 
+@enduml
