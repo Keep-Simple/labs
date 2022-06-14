@@ -11,7 +11,7 @@ def f(x):
 
 a = 0
 b = 3
-eps = 0.01
+eps = 0.0001
 
 
 def left_rectangle_method(f, a, b, n):
@@ -80,15 +80,19 @@ if __name__ == "__main__":
         trapezium_method,
         simpson_method,
     ]:
+        print(f"With eps={eps}|>")
         print(snake_case_to_pascal_case(method.__name__))
         n = math.ceil((b - a) / (eps ** (0.5)))
+        prev_res = None
+
         while True:
             print(">")
             print(f"n={n}")
-            res1 = method(f, a, b, n)
-            res2 = method(f, a, b, n * 2)
-            if math.fabs(res2 - res1) > eps:
+            res = method(f, a, b, n)
+            print(json.dumps(res, indent=4))
+            if not prev_res or math.fabs(res - prev_res) > eps:
                 n *= 2
             else:
-                print(json.dumps(res2, indent=4))
                 break
+            prev_res = res
+        print("-------------------------------")

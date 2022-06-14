@@ -4,7 +4,7 @@ abstract class Людина {
 +age: Number
 }
 class Бібліотекар {
-+get_book_for_visitor()
++get_book_for_visitor(book: Книга)
 +work()
 }
 class Бібліотека {
@@ -21,11 +21,12 @@ class Книга {
 class Відвідувач {
 +books: Книга[]
 +books_read: Number
-+ask_for_book()
-+return_book()
++ask_for_book(book: Книга)
++return_book(book: Книга)
 }
 class Прибуток {
 +amount: Number
++calculate_income(visitors: Відвідувач[])
 }
 abstract class Працівник {
 #salary: Number
@@ -33,8 +34,8 @@ abstract class Працівник {
 {abstract} work()
 }
 class Адміністратор { 
-+add_librarian()
-+order_books()
++add_librarian(librarian: Бібліотекар)
++order_books(books: Книга[])
 +work()
 }
 
@@ -43,7 +44,7 @@ class Адміністратор {
 Людина <|-- Відвідувач
 Відвідувач --> Книга  
 Прибуток ..> Відвідувач
-Бібліотека *.. Прибуток
+Бібліотека *-- Прибуток
 Працівник <|-- Бібліотекар
 Працівник <|-- Адміністратор
 Адміністратор --> Бібліотека 
