@@ -3,7 +3,7 @@ def swap(A, i, j):
 
 
 def sort_buble(arr, comparator):
-    if len(arr) == 1:
+    if len(arr) <= 1:
         return
     for i in range(len(arr) - 1):
         for j in range(len(arr) - 1 - i):

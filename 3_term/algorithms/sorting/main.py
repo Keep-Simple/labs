@@ -1,6 +1,6 @@
 import matplotlib.animation as anim
 import matplotlib.pyplot as plt
-from sorting.config import options
+from sorting.config import FRAME_INTERVAL, options
 
 
 def animate_sort(array, algo, title):
@@ -18,6 +18,7 @@ def animate_sort(array, algo, title):
         for rec, val in zip(rec, array):
             rec.set_height(val)
         iterations[0] += 1
+        print(f"Iteration {iterations[0]}: {array}\n")
         text.set_text(f"Operations count :{iterations[0]}")
 
     _ = anim.FuncAnimation(
@@ -25,7 +26,7 @@ def animate_sort(array, algo, title):
         func=update_plot,
         fargs=(bar_rec, iterations),
         frames=algo,
-        interval=1,
+        interval=FRAME_INTERVAL,
         repeat=False,
     )
     plt.show()
@@ -33,14 +34,14 @@ def animate_sort(array, algo, title):
 
 def ask_array_size():
     return int(
-        input("Welcome to the sorting visualizer!\nPlease enter the array size: ")
+        input("Welcome to the sorting visualizer!\nPlease enter the array size: ") or 10
     )
 
 
 def pick_sort_from_cli(n):
     options_str = [f"\t{idx+1}.{option[0]}" for idx, option in enumerate(options)]
     query_str = "\n".join(["Pick algorithm number:", *options_str, "\t"])
-    picked = (int(input(query_str)) - 1) % len(options)
+    picked = (int(input(query_str) or 1) - 1) % len(options)
     title, algo, generator, comparator = options[picked]
     array = generator(n)
 

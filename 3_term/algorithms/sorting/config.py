@@ -21,3 +21,5 @@ options = (
     # ("Count Sort", count_sort, gen_2),
     # ("Heap Sort", heap_sort, gen_6),
 )
+
+FRAME_INTERVAL = 50
