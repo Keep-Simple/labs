@@ -23,7 +23,7 @@ def gen_2(n):
 def gen_3(n):
     """
     Задано одномірний масив дійсних чисел.
-    До всіх парних елементів застосувати функцію, до непарних - функцію.
+    До всіх парних елементів застосувати функцію abs, до непарних - функцію tan.
     """
     arr = gen_random_real_array(n)
     for i in range(len(arr)):
@@ -75,10 +75,10 @@ def gen_6(n):
     Задано одномірний масив дійсних чисел.
     До парних елементів масиву застосувати функцію .
     """
-    arr = gen_random_real_array(n)
+    arr = gen_random_real_array(n, include_negative=False)
 
     for i in range(len(arr)):
         if i % 2 == 1:
             arr[i] = math.sqrt(abs(arr[i] - 10))
 
-    return arr
+    return list(map(int, arr))

@@ -16,7 +16,8 @@ def animate_sort(array, algo, title):
 
     def update_plot(array, rec, iterations):
         for rec, val in zip(rec, array):
-            rec.set_height(val)
+            if rec._height != val:
+                rec.set_height(val)
         iterations[0] += 1
         print(f"Iteration {iterations[0]}: {array}\n")
         text.set_text(f"Operations count :{iterations[0]}")

@@ -1,4 +1,4 @@
-def count_sort(arr):
+def count_sort(arr, _):
     max_val = max(arr)
     m = max_val + 1
     count = [0] * m
