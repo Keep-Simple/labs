@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <windows.h>
+
+int main(void) {
+  char input[20];
+  printf("Enter the command ('h' for help)");
+  while (1) {
+    gets(input);
+    switch (input[0]) {
+      case 'h':
+        printf(
+            "c - create process\n"
+            "s - suspend process\n"
+            "k - kill process\n"
+            "p - change process priority\n");
+        break;
+      case 'c':
+        break;
+      case 's':
+        break;
+      case 'k':
+        printf("Enter process index or -1 to kill all");
+        gets(input);
+        break;
+    }
+  }
+  return 0;
+}
+
+BOOL terminateProcess(const DWORD dwProcessId, const UINT uExitCode) {
+  DWORD dwDesiredAccess = PROCESS_TERMINATE;
+  BOOL bInheritHandle = FALSE;
+  HANDLE hProcess = OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);
+  if (hProcess == NULL) return FALSE;
+
+  BOOL result = TerminateProcess(hProcess, uExitCode);
+
+  CloseHandle(hProcess);
+
+  return result;
+}
+
+void terminateAll() {
+  while (!procInfos.empty()) {
+    PROCESS_INFORMATION curr = procInfos.at(procInfos.size() - 1);
+    terminateProcess(curr.dwProcessId, 0);
+    procInfos.pop_back();
+  }
+}
