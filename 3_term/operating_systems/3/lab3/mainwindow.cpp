@@ -1,7 +1,8 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 #include <tchar.h>
+
+#include "ui_mainwindow.h"
 
 std::array priorities = {REALTIME_PRIORITY_CLASS,     HIGH_PRIORITY_CLASS,
                          ABOVE_NORMAL_PRIORITY_CLASS, NORMAL_PRIORITY_CLASS,
@@ -51,21 +52,21 @@ void MainWindow::createProcess(const double a, const double b,
   mbstowcs(cmdLine, command.c_str(), 1024);
   if (!CreateProcess(NULL, cmdLine, NULL, NULL, true, CREATE_NEW_CONSOLE, NULL,
                      NULL, &si, &pi)) {
-    QMessageBox::warning(this, "Warning",
-                         "Could not create child process." +
-                             QString::number(GetLastError()));
+    QMessageBox::warning(
+        this, "Warning",
+        "Could not create child process." + QString::number(GetLastError()));
     throw 1;
   }
   procInfos.push_back(pi);
 }
 
-void MainWindow::createProcesses(const int count, const double a,
-                                 const double b, const int stepCount,
-                                 const double iterCount) {
+void MainWindow::createProcesses(int chunksCount, double a, double b,
+                                 int stepCount, double iterCount) {
   auto distance = b - a;
   auto step = distance / stepCount;
-  auto chunkSize = distance / count;
-  for (int i = 0; i < count; i++)
+  auto chunkSize = distance / chunksCount;
+  iterCount /= chunksCount;
+  for (int i = 0; i < chunksCount; i++)
     createProcess(a + chunkSize * i, a + chunkSize * (i + 1), step, iterCount);
 }
 
@@ -76,20 +77,20 @@ QString MainWindow::getPID(PROCESS_INFORMATION pi) {
 QString MainWindow::getPriority(PROCESS_INFORMATION pi) {
   DWORD priority = GetPriorityClass(pi.hProcess);
   switch (priority) {
-  case ABOVE_NORMAL_PRIORITY_CLASS:
-    return QString("Above normal");
-  case BELOW_NORMAL_PRIORITY_CLASS:
-    return QString("Below normal");
-  case HIGH_PRIORITY_CLASS:
-    return QString("High");
-  case IDLE_PRIORITY_CLASS:
-    return QString("Idle");
-  case NORMAL_PRIORITY_CLASS:
-    return QString("Normal");
-  case REALTIME_PRIORITY_CLASS:
-    return QString("Realtime");
-  default:
-    return QString("?");
+    case ABOVE_NORMAL_PRIORITY_CLASS:
+      return QString("Above normal");
+    case BELOW_NORMAL_PRIORITY_CLASS:
+      return QString("Below normal");
+    case HIGH_PRIORITY_CLASS:
+      return QString("High");
+    case IDLE_PRIORITY_CLASS:
+      return QString("Idle");
+    case NORMAL_PRIORITY_CLASS:
+      return QString("Normal");
+    case REALTIME_PRIORITY_CLASS:
+      return QString("Realtime");
+    default:
+      return QString("?");
   }
 }
 
@@ -109,8 +110,7 @@ void MainWindow::displayProcessInTable(const PROCESS_INFORMATION pi,
 
 void MainWindow::updateTable() {
   for (int i = 0; i < 8; i++)
-    for (int j = 0; j < 3; j++)
-      ui->table->setItem(i, j, new QTableWidgetItem);
+    for (int j = 0; j < 3; j++) ui->table->setItem(i, j, new QTableWidgetItem);
 
   for (auto i = 0; i != procInfos.size(); i++)
     displayProcessInTable(procInfos[i], i);
@@ -133,8 +133,7 @@ void MainWindow::on_btnRun_clicked() {
   auto pid = ui->txtPID->toPlainText().toInt();
 
   for (auto proc : procInfos) {
-    if (proc.dwProcessId == pid)
-      ResumeThread(proc.hThread);
+    if (proc.dwProcessId == pid) ResumeThread(proc.hThread);
   }
 
   updateTable();
@@ -144,8 +143,7 @@ void MainWindow::on_btnSuspend_clicked() {
   auto pid = ui->txtPID->toPlainText().toInt();
 
   for (auto proc : procInfos) {
-    if (proc.dwProcessId == pid)
-      SuspendThread(proc.hThread);
+    if (proc.dwProcessId == pid) SuspendThread(proc.hThread);
   }
 
   updateTable();
