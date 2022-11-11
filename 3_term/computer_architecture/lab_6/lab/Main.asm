@@ -5,7 +5,7 @@
 	.data
 
 	A  REAL4 4.3
-	C  REAL4 7
+	B  REAL4 7.0
 	D  REAL4 1.2
 	C1 REAL4 4.0
 	C2 REAL4 23.0
@@ -23,33 +23,33 @@ main:
 	fld   C1
 	fdiv  A; C1 / A
 
-	fld  C
-	fmul A; C * A
+	fld  B
+	fmul A; B * A
 	fcos ; cos(C*A)
 
-	fsubp ST(1), ST(0); C1/A - cos(C*A)
+	fsubp ST(1), ST(0); C1/A - cos(B*A)
 
 	fld   C2
-	fmul  C
+	fmul  B
 	fsub  C3
-	fsqrt ; sqrt(C2*C - C3)
+	fsqrt ; sqrt(C2*B - C3)
 
-	faddp ST(1), ST(0); sqrt(C2*C - C3) + C1/A - cos(C*A)
+	faddp ST(1), ST(0); sqrt(C2*B - C3) + C1/A - cos(B*A)
 
 	fld  C4
-	fmul C; C4 * C
+	fmul B; C4 * B
 
 	fld  D
 	fdiv C5; D / C5
 
-	fsubp ST(1), ST(0); C4 * C - D / C5
+	fsubp ST(1), ST(0); C4 * B - D / C5
 
 	fld  C6
 	fmul A; C6 * A
 
-	faddp ST(1), ST(0); C4 * C - D / C5 + C6 * A
+	faddp ST(1), ST(0); C4 * B - D / C5 + C6 * A
 
-	fdivp ST(1), ST(0); (sqrt(C2*C - C3) + C1/A - cos(C*A)) / (C4 * C - D / C5 + C6 * A)
+	fdivp ST(1), ST(0); (sqrt(C2*B - C3) + C1/A - cos(B*A)) / (C4 * B - D / C5 + C6 * A)
 
 	fst RES
 
