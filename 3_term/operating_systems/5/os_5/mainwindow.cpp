@@ -9,7 +9,6 @@
 
 #include "ui_mainwindow.h"
 
-
 // semaphor and interlock practice
 
 HANDLE sumSemaphore;
@@ -131,12 +130,16 @@ void MainWindow::on_createBtn_clicked() {
   std::string method = ui->syncCb->currentText().toStdString();
 
   int batchSize = numbers.size() / countThread;
-  for (int from = 0; from < numbers.size(); from += batchSize) {
+  for (int from = 0, to = batch_size; from < numbers.size();
+       from = to, to = from + batch_size) {
+    if (bonus_size) {
+      to++;
+      bonus_size--;
+    }
     params = new parameters();
     params->from = from;
-    params->to = std::min(int(numbers.size()), from + batchSize);
+    params->to = to;
     params->method = method;
-
     pThread = CreateThread(NULL,  // default security attributes
                            0,     // default stack size
                            countSum,
