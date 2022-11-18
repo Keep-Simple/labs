@@ -1,10 +1,18 @@
-import { Button, DatePicker, Space, Table, Statistic } from "antd"
+import {
+  Button,
+  DatePicker,
+  Space,
+  Table,
+  Statistic,
+  Input,
+  Select,
+} from "antd"
 import { Rule } from "antd/lib/form"
 import { ColumnsType } from "antd/lib/table"
 import moment from "moment"
 import React, { Ref, useMemo, useState } from "react"
-import { mostUsedTicket } from "../../utils"
-import { Ticket } from "../../utils/schemas"
+import { TicketsUtils } from "../../utils"
+import { Ticket, ticketTypes } from "../../utils/schemas"
 import { DownloadTickets } from "../DownloadTickets"
 import { LoadTickets } from "../LoadTickets"
 import { EditableCell } from "./Cell"
@@ -39,17 +47,29 @@ const columns: Array<ColumnsType<Ticket>[number] & TicketsTableEditProps> = [
   {
     title: "Phone",
     dataIndex: "phone",
-    edit: {},
+    edit: {
+      component: (save, ref) => <Input ref={ref} onBlur={save} type="tel" />,
+      serialize: (value: string) => Number(value),
+      deserialize: (value: number) => String(value),
+    },
   },
   {
     title: "Type",
     dataIndex: "ticketType",
-    edit: {},
     filters: ["Adult", "Child", "Student"].map((type) => ({
-      text: `Show only ${type}`,
+      text: `Show ${type}`,
       value: type,
     })),
     onFilter: (value, record) => record.ticketType == value,
+    edit: {
+      component: (save, ref) => (
+        <Select
+          ref={ref}
+          onChange={save}
+          options={ticketTypes.map((type) => ({ value: type, label: type }))}
+        />
+      ),
+    },
   },
   {
     title: "Expires",
@@ -66,23 +86,6 @@ const columns: Array<ColumnsType<Ticket>[number] & TicketsTableEditProps> = [
       deserialize: (value: string) => moment(value),
     },
   },
-  //   edit: {
-  //     serialize: (value: string) =>
-  //       value.split(",").filter(Boolean).map(Number),
-  //     deserialize: (value: number[]) => value.join(","),
-  //     rules: [
-  //       () => ({
-  //         transform: (value) => value.split(",").filter(Boolean),
-  //         validator: async (_, grades) => {
-  //           const errors = customTicketValidators["grades"]?.({
-  //             grades,
-  //           } as Ticket)
-
-  //           if (errors?.length) throw new Error(errors[0])
-  //         },
-  //       }),
-  //     ],
-  //   },
 ]
 
 export const TicketsTable: React.FC = () => {
@@ -94,11 +97,11 @@ export const TicketsTable: React.FC = () => {
       ...s,
       {
         key: s.length,
-        name: "John",
+        name: "Nick",
         surname: "Doe",
         ticketExpire: moment().add(1, "years").toISOString(),
         ticketType: "Adult",
-        phone: 960000000,
+        phone: 380984955366,
       },
     ])
   }
@@ -129,7 +132,7 @@ export const TicketsTable: React.FC = () => {
   })
 
   const mostUsed = useMemo(
-    () => mostUsedTicket(filteredTickets),
+    () => TicketsUtils.mostUsedTicket(filteredTickets),
     [filteredTickets]
   )
 

@@ -1,0 +1,42 @@
+[
+  {
+    "key": 0,
+    "name": "Nikita",
+    "surname": "Yasnohorodskyi",
+    "phone": 984915369,
+    "ticketType": "Adult",
+    "ticketExpire": "2022-12-12T15:21:42.535Z"
+  },
+  {
+    "key": 1,
+    "name": "Dmitryi",
+    "surname": "Svizi",
+    "phone": 904910566,
+    "ticketType": "Adult",
+    "ticketExpire": "2023-11-05T15:21:58.432Z"
+  },
+  {
+    "key": 2,
+    "name": "Olha",
+    "surname": "Pepe",
+    "phone": 914810563,
+    "ticketType": "Child",
+    "ticketExpire": "2025-09-11T15:22:05.103Z"
+  },
+  {
+    "key": 3,
+    "name": "Dmitryi",
+    "surname": "Svizi",
+    "phone": 904910566,
+    "ticketType": "Adult",
+    "ticketExpire": "2025-09-11T15:22:05.103Z"
+  },
+  {
+    "key": 4,
+    "name": "Nikita",
+    "surname": "Yasnohorodskyi",
+    "phone": 984915369,
+    "ticketType": "Adult",
+    "ticketExpire": "2026-12-12T15:21:42.535Z"
+  }
+]

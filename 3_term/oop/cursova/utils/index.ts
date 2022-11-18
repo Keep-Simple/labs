@@ -1,54 +1,46 @@
+// @ts-nocheck
 import { RcFile } from "antd/lib/upload"
 import {
+  getTicketsValidationErrors,
   Ticket,
   ticketsSerializer,
-  ticketsValidator,
   TicketsValidatorReturnType,
 } from "./schemas"
 import { message, notification } from "antd"
 
-export const capitalize = (s: any) => {
-  if (typeof s !== "string") return ""
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
-
-export function mostUsedTicket(tickets: Ticket[]) {
-  const stats = {}
-  let mostUsed = null
-  for (let ticket of tickets) {
-    stats[ticket.ticketType] ??= 0
-    stats[ticket.ticketType] += 1
-
-    if (mostUsed == null) {
-      mostUsed = ticket.ticketType
-    } else {
-      mostUsed =
-        stats[ticket.ticketType] > stats[mostUsed]
-          ? ticket.ticketType
-          : mostUsed
-    }
-  }
-
-  if (mostUsed == null) {
-    return null
-  }
-
-  return {
-    ticketType: mostUsed,
-    count: stats[mostUsed],
-  } as const
-}
-
 class TicketsPersister {
-  generateDownloadLink(tickets: Ticket[]) {
+  fileName: string
+
+  constructor(fileName?: string) {
+    this.fileName = fileName || "tickets"
+  }
+
+  downloadFileWithTickets(tickets: Ticket[]) {
     if (!tickets.length) return
 
+    const errors = getTicketsValidationErrors(tickets)
+
+    if (errors.length) {
+      this.displayErrors(errors)
+      return
+    }
+
     const raw = ticketsSerializer(tickets)
-    return URL.createObjectURL(
+    const encodedObj = URL.createObjectURL(
       new Blob([raw], {
         type: "application/json",
       })
     )
+    // create "a" HTLM element with href to file
+    const link = document.createElement("a")
+    link.href = encodedObj
+    link.download = `${this.fileName}.json`
+    document.body.appendChild(link)
+    link.click()
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link)
+    URL.revokeObjectURL(encodedObj)
   }
 
   loadFromFile(file: RcFile, onLoad: (tickets: Ticket[]) => void) {
@@ -69,17 +61,11 @@ class TicketsPersister {
           })
         }
       }
-      errors.push(...ticketsValidator(tickets))
+      errors.push(...getTicketsValidationErrors(tickets))
 
-      if (errors?.length) {
-        errors.forEach((e) =>
-          notification.error({
-            message: `${e.message}`,
-            description: `Please fix the detected error: ${e.meta}`,
-            placement: "bottomLeft",
-            duration: 30,
-          })
-        )
+      if (errors.length) {
+        this.displayErrors(errors)
+        return
       }
 
       if (tickets.length) {
@@ -90,6 +76,53 @@ class TicketsPersister {
       }
     }
   }
+
+  private displayErrors(errors: TicketsValidatorReturnType) {
+    if (!errors?.length) return
+
+    errors.forEach((e) =>
+      notification.error({
+        message: `${e.message}`,
+        description: `Please fix the detected error: ${e.meta}`,
+        placement: "bottomLeft",
+        duration: 30,
+      })
+    )
+  }
 }
 
 export const ticketsPersistor = new TicketsPersister()
+
+export const capitalize = (s: any) => {
+  if (typeof s !== "string") return ""
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+export class TicketsUtils {
+  static mostUsedTicket(tickets: Ticket[]) {
+    const stats = {}
+    let mostUsed = null
+    for (let ticket of tickets) {
+      stats[ticket.ticketType] ??= 0
+      stats[ticket.ticketType] += 1
+
+      if (mostUsed == null) {
+        mostUsed = ticket.ticketType
+      } else {
+        mostUsed =
+          stats[ticket.ticketType] > stats[mostUsed]
+            ? ticket.ticketType
+            : mostUsed
+      }
+    }
+
+    if (mostUsed == null) {
+      return null
+    }
+
+    return {
+      ticketType: mostUsed,
+      count: stats[mostUsed],
+    } as const
+  }
+}

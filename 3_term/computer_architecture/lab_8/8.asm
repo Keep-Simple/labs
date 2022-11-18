@@ -19,8 +19,8 @@
 	myName       BYTE 'A', 2Eh, 'n', 5Fh, 'd', 4Ch, 'r', 3Dh, 'i', 2Eh, 'y', 1Fh
 	myMiddleName BYTE 'O', 3Bh, 'l', 6Eh, 'e', 5Ah, 'k', 6Eh, 's', 3Ch, 'a', 6Dh, 'n', 2Bh, 'd', 7Eh, 'r', 3Ah, 'o', 1Bh, 'v', 3Ch, 'i', 2Dh, 'c', 0Fh, 'h', 1Eh
 
-	row    WORD  6
-	column WORD  28
+	row    WORD  5
+	column WORD  37
 
 	xVal            WORD  ?; Координата X
 	yVal            WORD  ?; Координата Y
