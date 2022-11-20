@@ -129,7 +129,8 @@ void MainWindow::on_createBtn_clicked() {
   parameters *params;
   std::string method = ui->syncCb->currentText().toStdString();
 
-  int batchSize = numbers.size() / countThread;
+  int batch_size = numbers.size() / countThread;
+  int bonus_size numbers.size() % countThread;
   for (int from = 0, to = batch_size; from < numbers.size();
        from = to, to = from + batch_size) {
     if (bonus_size) {
