@@ -159,7 +159,6 @@ DRAW_RECTANGLE PROC
   mov cx, rectangleWidth
   imul cx, rectangleHeight
   mov di, ax            ; в АХ – зміщення відеобуфера
-  ; Рисуємо пряму завдовжки 10 пікселів.
   DPI:
     mov BYTE PTR es:[di], 1 ; Записуємо індекс кольору
     ; В регістрі ES зберігається сегментна адреса відеобуфера.
