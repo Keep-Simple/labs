@@ -1,4 +1,5 @@
-from matplotlib.cbook import math
+import math
+
 from sorting.utils import gen_random_real_array, random_word
 
 
