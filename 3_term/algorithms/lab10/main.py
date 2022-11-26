@@ -36,6 +36,7 @@ def binary_search(arr, key):
     left, right = 0, len(arr) - 1
     while left <= right:
         mid = (left + right) // 2
+        print(f"left={left} mid={mid} right={right}")
         if arr[mid] > key:
             right = mid - 1
         elif arr[mid] < key:
@@ -46,8 +47,9 @@ def binary_search(arr, key):
 
 if __name__ == "__main__":
     arr, elements_to_find = gen_input_data()
-    print(f"Elements to find {elements_to_find}")
+    print(f"Elements to find {elements_to_find}\n")
 
     for el in elements_to_find:
         idx = binary_search(arr, el)
         print(f"Found element {el} with position {idx}")
+        print()
