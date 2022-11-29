@@ -1,22 +1,20 @@
-from leader_server.global_vars import posts, users
+from leader_server.models.post import Post
 from leader_server.utils.auth_middleware import auth_middleware
 
 
 @auth_middleware
-def view_posts(me, *_):
+def view_posts(db, me, *_):
     payload = []
+    posts = db.query(Post).join(Post.user)
+
     for post in posts:
         entry = {}
         entry["content"] = post.content
 
-        for user in users:
-            if user.id == post.user_id:
-                if me.id == post.user_id:
-                    entry["user_name"] = f"Me ({user.name})"
-                else:
-                    entry["user_name"] = user.name
-                break
-
+        if me.id == post.user_id:
+            entry["user_name"] = f"Me ({me.name})"
+        else:
+            entry["user_name"] = post.user.name
         payload.append(entry)
 
     return {

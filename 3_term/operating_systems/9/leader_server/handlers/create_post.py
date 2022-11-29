@@ -1,14 +1,14 @@
 import textwrap
 
 from constants import MAX_VIOLATIONS_COUNT
-from leader_server.global_vars import posts
+from leader_server.models.bad_word import BadWord
 from leader_server.models.post import Post
 from leader_server.utils.auth_middleware import auth_middleware
 from leader_server.utils.check_for_bad_word import validate_post_content
 
 
 @auth_middleware
-def create_post(user, payload):
+def create_post(db, user, payload):
     content = payload["content"]
     if not content:
         return {
@@ -16,7 +16,12 @@ def create_post(user, payload):
             "message": "Post can't be empty",
         }
 
-    ok, violations_count, violations_map = validate_post_content(content)
+    bad_words = list(map(lambda w: w.value, db.query(BadWord).all()))
+
+    ok, violations_count, violations_map = validate_post_content(
+        content,
+        bad_words,
+    )
 
     print(f"Validation results for '{content} is {violations_map}'")
 
@@ -42,8 +47,9 @@ def create_post(user, payload):
             ),
         }
 
-    new_post = Post(content, user.id)
-    posts.append(new_post)
+    new_post = Post(content=content, user_id=user.id)
+    db.add(new_post)
+    db.commit()
     return {
         "type": "ok",
         "message": "Your post was added",

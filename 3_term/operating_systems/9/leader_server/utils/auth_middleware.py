@@ -1,12 +1,14 @@
-from leader_server.global_vars import users
+from leader_server.models.user import User
 
 
 def auth_middleware(func):
-    def wrapped(data):
+    def wrapped(db, data):
         token = data["auth"]["token"]
-        for user in users:
-            if token == user.token:
-                return func(user, data["payload"])
+        user = db.query(User).filter(User.token == token).first()
+
+        if user:
+            return func(db, user, data["payload"])
+
         return {"type": "error", "message": "Incorrect credintials"}
 
     return wrapped

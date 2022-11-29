@@ -1,8 +1,16 @@
-from leader_server.utils.random_string import gen_random_string
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
+
+from leader_server.database import Base
 
 
-class Post:
-    def __init__(self, content, user_id):
-        self.id = gen_random_string()
-        self.user_id = user_id
-        self.content = content
+class Post(Base):
+    __tablename__ = "posts"
+
+    id = Column(Integer, primary_key=True)
+    content = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="posts")
+
+    def __repr__(self):
+        return "<Post(content='%s')>" % (self.content)

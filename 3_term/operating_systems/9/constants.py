@@ -1,4 +1,5 @@
 LEADER_HOST = "localhost"
-LEADER_PORT = 7032
+LEADER_PORT = 7041
 MAX_PAYLOAD_SIZE = 2**14
 MAX_VIOLATIONS_COUNT = 5
+DEFAULT_BAD_WORDS = ["bad", "cruel", "oi", "bruh"]

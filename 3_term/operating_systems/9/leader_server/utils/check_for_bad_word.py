@@ -1,8 +1,8 @@
 import re
 from multiprocessing import Process, Queue
+from typing import List
 
 from constants import MAX_VIOLATIONS_COUNT
-from leader_server.global_vars import bad_words
 
 
 def check_for_bad_word(queue, content, bad_word):
@@ -21,7 +21,9 @@ def check_for_bad_word(queue, content, bad_word):
     queue.put((bad_word, count))
 
 
-def validate_post_content(content: str) -> tuple[bool, int, dict[str, int]]:
+def validate_post_content(
+    content: str, bad_words: List[str]
+) -> tuple[bool, int, dict[str, int]]:
     try:
         q = Queue()
         processes = []
