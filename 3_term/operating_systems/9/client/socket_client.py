@@ -33,18 +33,18 @@ class SocketClient:
         match res["type"]:
             case "error":
                 ui.toast(
-                    "Error!",
-                    "",
-                    f"{message}",
-                    delay=3 * 10**3,
+                    f"[bold red]{message}",
+                    delay=6 * 10**3,
+                    slot="Alert",
+                    animate=False,
                 )
                 return None
             case "ok":
                 ui.toast(
-                    "Success",
-                    "",
-                    f"{message}",
-                    delay=3 * 10**3,
+                    f"[bold green]{message}",
+                    delay=6 * 10**3,
+                    slot="Alert",
+                    animate=False,
                 )
 
                 return res["payload"]

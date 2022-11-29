@@ -15,17 +15,27 @@ def client_create_post_form(ui, callback):
                 output[key] = widget.value
                 continue
         callback(ui, output)
-        ui.remove(window)
+        ui.remove(window, animate=False)
 
-    inputs = [ptg.InputField(prompt=prompt) for prompt in PROMPT_TO_KEY.keys()]
+    inputs = [
+        ptg.InputField(prompt=prompt, multiline=True) for prompt in PROMPT_TO_KEY.keys()
+    ]
     window = ptg.Window(
         "[secondary]Create post",
         "",
         *inputs,
         "",
-        ["Post", lambda *_: post(window)],
+        (
+            ["Post", lambda *_: post(window)],
+            [
+                "Cancel",
+                lambda *_: window.close(animate=False),
+            ],
+        ),
+        is_modal=True,
+        overflow=ptg.Overflow.SCROLL,
     ).center()
-    ui.add(window)
+    ui.add(window, animate=False)
 
 
 def create_post(ui, form_data):
