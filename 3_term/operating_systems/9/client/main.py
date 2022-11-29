@@ -9,7 +9,6 @@ def main():
             ui,
             login,
         )
-        # client.close()  # close the connection
 
 
 if __name__ == "__main__":

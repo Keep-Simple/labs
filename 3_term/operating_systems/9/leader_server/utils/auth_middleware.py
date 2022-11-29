@@ -7,7 +7,6 @@ def auth_middleware(func):
         for user in users:
             if token == user.token:
                 return func(user, data["payload"])
-            else:
-                return {"type": "error", "message": "Incorrect credintials"}
+        return {"type": "error", "message": "Incorrect credintials"}
 
     return wrapped
