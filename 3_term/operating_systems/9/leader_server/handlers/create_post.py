@@ -18,7 +18,7 @@ def create_post(user, payload):
 
     ok, violations_count, violations_map = validate_post_content(content)
 
-    print(violations_map)
+    print(f"Validation results for '{content} is {violations_map}'")
 
     if not ok:
         return {

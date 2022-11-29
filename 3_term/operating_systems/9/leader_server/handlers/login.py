@@ -9,20 +9,19 @@ def login(data):
     for user in users:
         if user.name == payload["name"]:
             if is_same_password(payload["password"], user.password):
-                print("Login Success")
+                print("Login success")
                 return {
                     "type": "ok",
                     "payload": user.token,
                     "message": f"User {user.name} is logged in",
                 }
             else:
-                print("Login Failed")
+                print("Login failed")
                 return {
                     "type": "error",
                     "message": f"User {user.name} has wrong password",
                 }
 
-    print("Login creating new user...")
     new_user = User(
         name=payload["name"],
         password=gen_salted_password(payload["password"]),
@@ -31,6 +30,7 @@ def login(data):
 
     users.append(new_user)
 
+    print("Created new user and logged in")
     return {
         "type": "ok",
         "payload": new_user.token,

@@ -6,7 +6,7 @@ from client.socket_client import socket_client
 
 def client_view_posts(ui):
     posts = view_posts(ui)
-    post_widgets = [ptg.Collapsible(p["user_id"], p["content"]) for p in posts]
+    post_widgets = [ptg.Collapsible(p["user_name"], p["content"]) for p in posts]
 
     window = ptg.Window(
         ptg.Button(
