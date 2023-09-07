@@ -1,0 +1,16 @@
+.label {
+  display: flex;
+  flex-direction: column;
+}
+.form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.list {
+  list-style: none;
+}
+.link {
+  text-decoration: none;
+}

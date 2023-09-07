@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+header,main, footer{
+    border: 2px solid black;
+}
+header{
+    height: 100px;
+}
+main {
+    height: 200px;
+}
+footer{
+    height: 100px;
+}
+.list {
+    list-style: none;
+}
+
+.link {
+    text-decoration: none;
+}

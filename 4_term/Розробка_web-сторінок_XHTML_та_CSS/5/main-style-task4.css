@@ -1,0 +1,59 @@
+body{
+    border: 2px solid;
+    border-left-color: yellow;
+    border-top-color: brown;
+    border-bottom-color: brown;
+    border-right: none;
+}
+body, ul{
+    margin: 0;
+}
+header{
+    background-color: rgb(255, 166, 0);
+}
+li{
+    list-style-type: none;
+    padding: 20px;
+}
+.li:hover{
+    color: orange;
+    background-color: white;
+}
+.li:hover a {
+    color: orange;
+}
+.link{
+    text-decoration: none;
+    color: white;
+}
+.flex{
+    display: flex;
+}
+h1,h2{
+    color: brown;
+    text-align: center;
+}
+p{
+    color: orange;
+}
+.textlink{
+    color: orange;
+}
+.textlink:hover{
+    color:black;
+}
+.footerlink{
+    color: brown;
+    text-decoration: none;
+}
+.footerlink:hover{
+    color: black;
+}
+/* link task */
+.list {
+    list-style: none;
+}
+
+.task {
+    text-decoration: none;
+}

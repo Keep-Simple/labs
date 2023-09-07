@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практична 2</title>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+  <main>
+    <div class="tasks-container">
+      <div>
+        <h2>Textarea</h1>
+          <textarea id="textArea" rows="5" cols="30"></textarea>
+          <br>
+          <label><input type="checkbox" id="wordCount"> к-сть слів</label>
+          <label><input type="checkbox" id="charCount"> к-сть символів</label>
+          <label><input type="checkbox" id="charCountNoSpaces"> к-сть символів без пробілів</label>
+          <label><input type="checkbox" id="spacesCount"> к-сть пробілів</label>
+          <div>
+            <p class="result-text">
+              Відповідь:
+              <span id="result"></span>
+            </p>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="./main.js"></script>
+  <script src="./task.js"></script>
+</body>
+
+</html>

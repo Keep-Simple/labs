@@ -1,0 +1,39 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+header,main, footer,div{
+    border: 2px solid black;
+    margin: 10px;
+}
+header{
+    height: 100px;
+}
+main {
+    height: 350px;
+    width: 100%;
+}
+footer{
+    height: 100px;
+}
+.flex{
+    display: flex;
+}
+.Sidebar{
+    width: 200px;
+    height: 350px;
+}
+.noneborder{
+    border: 0;
+}
+.photo{
+    height: 100px;
+    width: 150px;
+}
+.list {
+    list-style: none;
+}
+
+.link {
+    text-decoration: none;
+}

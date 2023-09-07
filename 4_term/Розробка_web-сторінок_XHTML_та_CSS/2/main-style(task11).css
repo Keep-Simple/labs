@@ -1,0 +1,20 @@
+table{
+    border-collapse: collapse;
+    width: 900px;
+}
+table td, table th{
+    border: 1px solid rgb(197, 197, 209);
+    text-align: left;
+    vertical-align: top;
+}
+table th{
+    background-color:rgb(83, 83, 202);
+}
+/* link */
+.list {
+    list-style: none;
+}
+
+.link {
+    text-decoration: none;
+}

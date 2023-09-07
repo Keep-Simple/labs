@@ -1,0 +1,198 @@
+/* task1 */
+.task1 {
+    border-collapse: collapse;
+}
+.task1 td {
+    border: 1px solid #000000;
+}
+/* task2 */
+.task2 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+.task2 td {
+    border: 1px solid #000000;
+}
+/* task3 */
+.task3 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+.task3 td,.task3 th{
+    border: 1px solid #000000;
+}
+/* task4 */
+.task4 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+.task4 td,
+.task4 th {
+    border: 1px solid #000000;
+}
+.Petrov{
+    text-align: left;
+}
+.Ivanov {
+    text-align: center;
+}
+.Alexandrov{
+    text-align: right;
+}
+.age{
+    text-align: center;
+}
+.HTMLCSS{
+    text-align: right;
+}
+.LEGO{
+    text-align: center;
+}
+.Construct2{
+    text-align: left;
+}
+/* task5 */
+.task5 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.task5 td,
+.task5 th {
+    border: 1px solid #000000;
+    border-spacing: 10px;
+}
+
+.Petrov {
+    text-align: left;
+}
+
+.Ivanov {
+    text-align: center;
+}
+
+.Alexandrov {
+    text-align: right;
+}
+
+.age {
+    text-align: center;
+}
+
+.HTMLCSS {
+    text-align: right;
+}
+
+.LEGO {
+    text-align: center;
+}
+
+.Construct2 {
+    text-align: left;
+}
+/* task6 */
+.task6 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.task6 td,
+.task6 th {
+    border: 1px solid #000000;
+    padding: 20px;
+}
+
+.Petrov {
+    text-align: left;
+}
+
+.Ivanov {
+    text-align: center;
+}
+
+.Alexandrov {
+    text-align: right;
+}
+
+.age {
+    text-align: center;
+}
+
+.HTMLCSS {
+    text-align: right;
+}
+
+.LEGO {
+    text-align: center;
+}
+
+.Construct2 {
+    text-align: left;
+}
+/* task7 */
+.task7 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+
+.task7 td,
+.task7 th {
+    border: 1px solid #000000;
+    padding: 20px;
+    text-align: left;
+}
+/* task8 */
+.task8 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+
+.task8 td,
+.task8 th {
+    border: 1px solid #000000;
+    padding: 20px;
+    text-align: left;
+}
+/* task9 */
+.task9 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+
+.task9 td,
+.task9 th {
+    border: 1px solid #000000;
+    padding: 20px;
+    text-align: left;
+}
+/* task10 */
+.task10 {
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+}
+.task10 td,
+.task10 th {
+    border: 1px solid #000000;
+    padding: 20px;
+    text-align: left;
+}
+/* link */
+.list {
+    list-style: none;
+}
+.link {
+    text-decoration: none;
+}

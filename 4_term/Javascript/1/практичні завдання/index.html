@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практична 1</title>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+  <main>
+    <div class="tasks-container">
+      <div>
+        <h2>Корені квадратного рівняння</h1>
+          <label for="a">a:</label>
+          <input type="number" id="a" step="any"><br><br>
+
+          <label for="b">b:</label>
+          <input type="number" id="b" step="any"><br><br>
+
+          <label for="c">c:</label>
+          <input type="number" id="c" step="any"><br><br>
+
+          <button onclick="solveEquation()">знайти корені</button>
+
+          <div>
+            <p class="result-text">
+              Відповідь:
+              <span id="result"></span>
+            </p>
+          </div>
+      </div>
+      <div>
+        <h2>Перевірка трійки Піфагора</h1>
+          <label for="num1">Число 1:</label>
+          <input type="number" id="num1"><br><br>
+
+          <label for="num2">Число 2:</label>
+          <input type="number" id="num2"><br><br>
+
+          <label for="num3">Число 3:</label>
+          <input type="number" id="num3"><br><br>
+
+          <button onclick="checkPythagoreanTriple()">Перевірити</button>
+
+          <div>
+            <p class="result-text">
+              Відповідь:
+              <span id="result2"></span>
+            </p>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="./main.js"></script>
+  <script src="./task1.js"></script>
+  <script src="./task2.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+.main{
+    border: 1px solid rgb(0, 0, 0);
+}
+.news, .about, .interesting{
+    border: 1px solid rgb(0, 0, 0);
+    margin: 5px 10px 15px 5px;
+    padding: 10px 20px;
+
+}
+.info{
+    text-align: right;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+.flex{
+    display: flex;
+}
+.head{
+    background-color: rgb(128,128,128);
+}
+.white:active{
+color: white;
+}
+/* link task */
+.list {
+    list-style: none;
+}
+
+.task {
+    text-decoration: none;
+}
