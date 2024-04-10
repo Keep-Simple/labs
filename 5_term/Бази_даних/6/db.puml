@@ -1,0 +1,52 @@
+@startuml
+
+entity Users {
+    + ID (PK)
+    --
+    Username
+    Password
+}
+
+entity Roles {
+    + ID (PK)
+    --
+    RoleName
+}
+
+entity Permissions {
+    + ID (PK)
+    --
+    PermissionName
+}
+
+entity Objects {
+    + ID (PK)
+    --
+    ObjectName
+}
+
+entity UserRoles {
+    + UserID (PK)
+    + RoleID (PK)
+}
+
+entity RolePermissions {
+    + RoleID (PK)
+    + PermissionID (PK)
+}
+
+entity UserObjects {
+    + UserID (PK)
+    + ObjectID (PK)
+    + PermissionID
+}
+
+Users ||-o{ UserRoles
+Roles ||-o{ UserRoles
+Roles ||-o{ RolePermissions
+Permissions ||-o{ RolePermissions
+Users ||-o{ UserObjects
+Objects ||-o{ UserObjects
+Permissions ||-o{ UserObjects
+
+@enduml
