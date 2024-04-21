@@ -1,73 +1,132 @@
-﻿using System;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
+using System.Data;
 
 class Program
 {
+    private static SqliteConnection connection;
+
     static void Main()
     {
-        string connectionString = "Data Source=suppliers.db";
+        string connectionString = "Data Source=Program.db";
+        connection = new SqliteConnection(connectionString);
+        connection.Open();
 
-        using (var connection = new SqliteConnection(connectionString))
-        {
-            connection.Open();
+        CreateTableA();
+        CreateTableVeryLongNameOfTable();
 
-            CreateSuppliersTable(connection);
-            InsertSupplier(connection, "Company A", "Address 1");
-            InsertSupplier(connection, "Company B");
+        ExecuteSimpleSelectFromBothTables();
+        ExecuteSelectWithAlias();
+        ExecuteSelectWithCondition();
+        ExecuteCrossJoin();
+        ExecuteJoinWithCondition();
+        ExecuteJoinWithTwoAsAndOneB();
+        ExecuteLeftJoinAtoB();
+        ExecuteLeftJoinBtoA();
 
-            DisplaySuppliers(connection);
-        }
+        connection.Close();
     }
 
-    static void CreateSuppliersTable(SqliteConnection connection)
+    static void CreateTableA()
     {
-        string createTableQ = @"
-            CREATE TABLE IF NOT EXISTS suppliers (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                address TEXT DEFAULT 'Not provided'
-            );";
-
-        ExecuteNonQuery(connection, createTableQ);
+        string createTableACommand = "CREATE TABLE IF NOT EXISTS A (id INTEGER);";
+        ExecuteNonQuery(createTableACommand);
+        string insertDataACommand = "INSERT INTO A (id) VALUES (1), (2), (3), (4), (NULL);";
+        ExecuteNonQuery(insertDataACommand);
     }
 
-    static void InsertSupplier(SqliteConnection connection, string name, string address = "Not provided")
+    static void CreateTableVeryLongNameOfTable()
     {
-        string insertQ = "INSERT INTO suppliers (name, address) VALUES (@name, @address);";
+        string createTableCommand = "CREATE TABLE IF NOT EXISTS veryLongNameOfTable (id INTEGER);";
+        ExecuteNonQuery(createTableCommand);
+        string insertDataCommand = "INSERT INTO veryLongNameOfTable (id) VALUES (1), (2), (300), (NULL);";
+        ExecuteNonQuery(insertDataCommand);
+    }
 
-        using (var command = connection.CreateCommand())
+    static void ExecuteSimpleSelectFromBothTables()
+    {
+        string query = "SELECT * FROM A, veryLongNameOfTable;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteSelectWithAlias()
+    {
+        string query = "SELECT A.id AS A_id, B.id AS B_id FROM A, veryLongNameOfTable AS B;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteSelectWithCondition()
+    {
+        string query = $"SELECT A.id AS A_id, B.id AS B_id FROM A, veryLongNameOfTable AS B WHERE A.id = B.id;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteCrossJoin()
+    {
+        string query = "SELECT A.id, B.id FROM A CROSS JOIN veryLongNameOfTable B;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteJoinWithCondition()
+    {
+        string query = "SELECT A.id, B.id FROM A JOIN veryLongNameOfTable B ON A.id = B.id;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteJoinWithTwoAsAndOneB()
+    {
+        string query = "SELECT A1.id, A2.id, B.id FROM A A1 JOIN veryLongNameOfTable B ON A1.id = B.id JOIN A A2 ON A1.id = A2.id AND A1.id != A2.id;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteLeftJoinAtoB()
+    {
+        string query = "SELECT A.id AS A_id, B.id AS B_id FROM A LEFT OUTER JOIN veryLongNameOfTable B ON A.id = B.id;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteLeftJoinBtoA()
+    {
+        string query = "SELECT B.id AS B_id, A.id AS A_id FROM veryLongNameOfTable B LEFT OUTER JOIN A ON B.id = A.id;";
+        ExecuteQueryWithFormattedOutput(query);
+    }
+
+    static void ExecuteNonQuery(string query)
+    {
+        using (var command = new SqliteCommand(query, connection))
         {
-            command.CommandText = insertQ;
-            command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@address", address);
             command.ExecuteNonQuery();
         }
     }
 
-    static void DisplaySuppliers(SqliteConnection connection)
+    static void ExecuteQueryWithFormattedOutput(string query)
     {
-        string selectAllQ = "SELECT * FROM suppliers;";
-
-        using (var command = connection.CreateCommand())
+        using (var command = new SqliteCommand(query, connection))
         {
-            command.CommandText = selectAllQ;
             using (var reader = command.ExecuteReader())
             {
-                Console.WriteLine("id\tname\taddress");
-                while (reader.Read())
-                {
-                    Console.WriteLine($"{reader["id"]}\t{reader["name"]}\t{reader["address"]}");
-                }
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                PrintDataTable(dataTable);
             }
         }
     }
 
-    static void ExecuteNonQuery(SqliteConnection connection, string query)
+    static void PrintDataTable(DataTable table)
     {
-        using (var command = connection.CreateCommand())
+        foreach (DataColumn col in table.Columns)
         {
-            command.CommandText = query;
-            command.ExecuteNonQuery();
+            Console.Write($"{col.ColumnName,-20}");
         }
+        Console.WriteLine();
+
+        foreach (DataRow row in table.Rows)
+        {
+            foreach (var item in row.ItemArray)
+            {
+                Console.Write($"{item,-20}");
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine();
     }
 }
